@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,8 +9,10 @@ header{background:#250038;padding:15px;box-shadow:0 0 20px #a855f7}
 .stats{display:flex;justify-content:center;gap:15px;flex-wrap:wrap}
 .stats div{background:#3b0057;padding:8px 14px;border-radius:12px}
 .search{padding:12px;width:80%;max-width:500px;border-radius:12px;border:0;margin:15px}
-.category-buttons button,.big-card button,button{background:#8b5cf6;color:white;border:0;padding:10px 15px;border-radius:12px;font-weight:bold;margin:5px}
+button{background:#8b5cf6;color:white;border:0;padding:10px 15px;border-radius:12px;font-weight:bold;margin:5px}
 .category-buttons button.active{background:#ffd700;color:#220033}
+input,select{padding:10px;border-radius:10px;border:0;margin:4px}
+
 .grid{display:flex;flex-wrap:wrap;justify-content:center;gap:15px;padding:15px}
 .card-item{background:#2b0040;width:150px;padding:10px;border-radius:12px;cursor:pointer;position:relative;box-shadow:0 0 10px #7d2cff}
 .card-item img{width:100px;border-radius:8px}
@@ -19,17 +20,17 @@ header{background:#250038;padding:15px;box-shadow:0 0 20px #a855f7}
 .card-item.found-card::after{
 content:"✖";
 position:absolute;
-top:20px;
+top:15px;
 left:35px;
-font-size:90px;
+font-size:95px;
 color:red;
 font-weight:bold;
 text-shadow:0 0 10px black;
 }
+
 .main{min-height:380px;display:flex;align-items:center;justify-content:center;position:relative}
 .big-card{background:#220033;padding:20px;border-radius:20px;box-shadow:0 0 30px #a855f7}
 .big-card img{width:260px;border-radius:15px}
-input,select{padding:10px;border-radius:10px;border:0;margin:4px}
 .found-text{font-size:60px;color:#ffd700;text-shadow:0 0 25px #ff00ff}
 .firework{position:absolute;width:8px;height:8px;border-radius:50%;animation:explode 1s linear forwards}
 @keyframes explode{from{transform:scale(1);opacity:1}to{transform:scale(25);opacity:0}}
@@ -98,10 +99,18 @@ document.getElementById("remaining").innerText = total - found;
 
 function setCategory(category){
 currentCategory = category;
+
 ["All","Japanese","Chinese","English","Mixed"].forEach(cat=>{
 document.getElementById("btn"+cat).classList.remove("active");
 });
+
 document.getElementById("btn"+category).classList.add("active");
+
+document.getElementById("display").innerHTML = `
+<h2>${category} Cards</h2>
+<p>Select a card from this category.</p>
+`;
+
 loadCards();
 }
 
@@ -125,17 +134,27 @@ save();
 reader.readAsDataURL(file);
 }
 
+function getVisibleCards(){
+let search = document.getElementById("search").value.toLowerCase();
+
+return cards
+.map((card,index)=>({...card, realIndex:index}))
+.filter(card=>{
+if(currentCategory !== "All" && card.category !== currentCategory) return false;
+if(!card.name.toLowerCase().includes(search)) return false;
+return true;
+});
+}
+
 function loadCards(){
 let grid = document.getElementById("cardGrid");
-let search = document.getElementById("search").value.toLowerCase();
 grid.innerHTML = "";
 
-cards.forEach((card,index)=>{
-if(currentCategory !== "All" && card.category !== currentCategory) return;
-if(!card.name.toLowerCase().includes(search)) return;
+let visibleCards = getVisibleCards();
 
+visibleCards.forEach(card=>{
 grid.innerHTML += `
-<div class="card-item ${card.found ? 'found-card' : ''}" onclick="showCard(${index})">
+<div class="card-item ${card.found ? 'found-card' : ''}" onclick="showCard(${card.realIndex})">
 <img src="${card.image}">
 <p>${card.name}</p>
 <small>${card.category}</small>
@@ -160,20 +179,29 @@ document.getElementById("display").innerHTML = `
 }
 
 function nextCard(){
-if(cards.length === 0) return;
-currentIndex = (currentIndex + 1) % cards.length;
-showCard(currentIndex);
+let visibleCards = getVisibleCards();
+if(visibleCards.length === 0) return;
+
+let position = visibleCards.findIndex(card => card.realIndex === currentIndex);
+let nextPosition = (position + 1) % visibleCards.length;
+
+showCard(visibleCards[nextPosition].realIndex);
 }
 
 function previousCard(){
-if(cards.length === 0) return;
-currentIndex = (currentIndex - 1 + cards.length) % cards.length;
-showCard(currentIndex);
+let visibleCards = getVisibleCards();
+if(visibleCards.length === 0) return;
+
+let position = visibleCards.findIndex(card => card.realIndex === currentIndex);
+let previousPosition = (position - 1 + visibleCards.length) % visibleCards.length;
+
+showCard(visibleCards[previousPosition].realIndex);
 }
 
 function markFound(index){
 cards[index].found = true;
 fireworks();
+
 document.getElementById("display").innerHTML = `
 <div>
 <div class="found-text">FOUND!</div>
@@ -182,6 +210,7 @@ document.getElementById("display").innerHTML = `
 <br>
 <button onclick="showCard(${index})">Back to Card</button>
 </div>`;
+
 save();
 }
 
@@ -212,7 +241,6 @@ loadCards();
 
 </body>
 </html>
-
 
 
 
