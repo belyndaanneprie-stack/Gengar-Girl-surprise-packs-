@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,19 +8,24 @@ header{background:#250038;padding:15px;box-shadow:0 0 20px #a855f7}
 .stats{display:flex;justify-content:center;gap:15px;flex-wrap:wrap}
 .stats div{background:#3b0057;padding:8px 14px;border-radius:12px}
 .search{padding:12px;width:80%;max-width:500px;border-radius:12px;border:0;margin:15px}
-.columns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:15px;padding:15px}
+.columns{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:15px;padding:15px}
 .column{background:#1b0029;border-radius:18px;padding:12px;box-shadow:0 0 15px #7d2cff}
 .card-item{background:#2b0040;margin:8px;padding:8px;border-radius:12px;cursor:pointer}
 .card-item img{width:70px;border-radius:8px}
 .found-card{opacity:.45;text-decoration:line-through}
-.main{min-height:360px;display:flex;align-items:center;justify-content:center;position:relative}
+.main{min-height:380px;display:flex;align-items:center;justify-content:center;position:relative}
 .big-card{background:#220033;padding:20px;border-radius:20px;box-shadow:0 0 30px #a855f7}
 .big-card img{width:260px;border-radius:15px}
 button{background:#8b5cf6;color:white;border:0;padding:10px 15px;border-radius:12px;font-weight:bold;margin:5px}
 input,select{padding:10px;border-radius:10px;border:0;margin:4px}
 .found-text{font-size:60px;color:#ffd700;text-shadow:0 0 25px #ff00ff}
 .firework{position:absolute;width:8px;height:8px;border-radius:50%;animation:explode 1s linear forwards}
+.swipe-buttons button{font-size:22px}
 @keyframes explode{from{transform:scale(1);opacity:1}to{transform:scale(25);opacity:0}}
+
+@media(max-width:900px){
+.columns{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
@@ -44,6 +48,7 @@ input,select{padding:10px;border-radius:10px;border:0;margin:4px}
 <option>Japanese</option>
 <option>Chinese</option>
 <option>English</option>
+<option>Mixed</option>
 </select>
 <button onclick="addCard()">Add Card</button>
 </div>
@@ -51,7 +56,7 @@ input,select{padding:10px;border-radius:10px;border:0;margin:4px}
 <div class="main" id="main">
 <div id="display">
 <h2>Select a card</h2>
-<p>Click a card from Japanese, Chinese or English packs.</p>
+<p>Click a card or use swipe buttons.</p>
 </div>
 </div>
 
@@ -70,10 +75,16 @@ input,select{padding:10px;border-radius:10px;border:0;margin:4px}
 <h2>🇬🇧 English Surprise Packs</h2>
 <div id="English"></div>
 </div>
+
+<div class="column">
+<h2>🃏 Mixed Cards</h2>
+<div id="Mixed"></div>
+</div>
 </div>
 
 <script>
 let cards = JSON.parse(localStorage.getItem("cards")) || [];
+let currentIndex = 0;
 
 function save(){
 localStorage.setItem("cards", JSON.stringify(cards));
@@ -110,7 +121,7 @@ reader.readAsDataURL(file);
 }
 
 function loadCards(){
-["Japanese","Chinese","English"].forEach(cat=>{
+["Japanese","Chinese","English","Mixed"].forEach(cat=>{
 document.getElementById(cat).innerHTML="";
 });
 
@@ -128,15 +139,36 @@ document.getElementById(card.category).innerHTML += `
 }
 
 function showCard(index){
+if(cards.length === 0) return;
+currentIndex = index;
 let card = cards[index];
+
 document.getElementById("display").innerHTML = `
 <div class="big-card">
 <img src="${card.image}">
 <h1>${card.name}</h1>
-<p>${card.category} Surprise Pack</p>
+<p>${card.category}</p>
+
+<div class="swipe-buttons">
+<button onclick="previousCard()">⬅️</button>
+<button onclick="nextCard()">➡️</button>
+</div>
+
 <button onclick="markFound(${index})">FOUND!</button>
 <button onclick="deleteCard(${index})">Delete</button>
 </div>`;
+}
+
+function nextCard(){
+if(cards.length === 0) return;
+currentIndex = (currentIndex + 1) % cards.length;
+showCard(currentIndex);
+}
+
+function previousCard(){
+if(cards.length === 0) return;
+currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+showCard(currentIndex);
 }
 
 function markFound(index){
@@ -147,6 +179,8 @@ document.getElementById("display").innerHTML = `
 <div class="found-text">FOUND!</div>
 <h1>${cards[index].name}</h1>
 <img src="${cards[index].image}" style="width:250px;border-radius:15px">
+<br>
+<button onclick="showCard(${index})">Back to Card</button>
 </div>`;
 save();
 }
