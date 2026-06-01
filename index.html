@@ -1,31 +1,4 @@
 
-<!DOCTYPE html>
-<html>
-<head>
-<title>Gengar Girl Card Finder</title>
-<style>
-body{margin:0;font-family:Arial;background:#100018;color:white;overflow:hidden}
-header{background:#250038;padding:12px;text-align:center;box-shadow:0 0 20px #a855f7}
-.stats{display:flex;justify-content:center;gap:15px;flex-wrap:wrap}
-.stats div{background:#3b0057;padding:8px 14px;border-radius:12px}
-.layout{display:flex;height:calc(100vh - 105px)}
-.sidebar{width:300px;background:#1b0029;padding:12px;overflow-y:auto;box-shadow:0 0 20px #7d2cff}
-input,button{padding:10px;border-radius:10px;border:0;margin:4px}
-input{width:90%}
-button{background:#8b5cf6;color:white;font-weight:bold}
-.card-item{display:flex;align-items:center;gap:10px;background:#2b0040;margin:8px 0;padding:8px;border-radius:12px;cursor:pointer}
-.card-item img{width:45px;height:60px;object-fit:cover;border-radius:6px}
-.card-item.found-card{opacity:.45}
-.main{flex:1;display:flex;align-items:center;justify-content:center;position:relative;text-align:center}
-.big-card{background:#220033;padding:22px;border-radius:20px;box-shadow:0 0 30px #a855f7;z-index:2}
-.big-card img{width:330px;max-height:470px;object-fit:contain;border-radius:15px}
-.found-text{font-size:70px;color:#ffd700;text-shadow:0 0 25px #ff00ff;animation:pulse .7s infinite alternate}
-@keyframes pulse{from{transform:scale(1)}to{transform:scale(1.15)}}
-.firework{position:absolute;width:8px;height:8px;border-radius:50%;animation:explode 1s linear forwards}
-@keyframes explode{from{transform:scale(1);opacity:1}to{transform:scale(25);opacity:0}}
-</style>
-</head>
-<body>
 
 <header>
 <h1>👻 Gengar Girl Card Finder 👻</h1>
@@ -89,22 +62,131 @@ cards.push({name:name,image:e.target.result,found:false});
 document.getElementById("cardName").value="";
 document.getElementById("cardImage").value="";
 save();
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gengar Girl Surprise Pack Tracker</title>
+<style>
+body{margin:0;font-family:Arial;background:#100018;color:white;text-align:center}
+header{background:#250038;padding:15px;box-shadow:0 0 20px #a855f7}
+.stats{display:flex;justify-content:center;gap:15px;flex-wrap:wrap}
+.stats div{background:#3b0057;padding:8px 14px;border-radius:12px}
+.search{padding:12px;width:80%;max-width:500px;border-radius:12px;border:0;margin:15px}
+.columns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:15px;padding:15px}
+.column{background:#1b0029;border-radius:18px;padding:12px;box-shadow:0 0 15px #7d2cff}
+.card-item{background:#2b0040;margin:8px;padding:8px;border-radius:12px;cursor:pointer}
+.card-item img{width:70px;border-radius:8px}
+.found-card{opacity:.45;text-decoration:line-through}
+.main{min-height:360px;display:flex;align-items:center;justify-content:center;position:relative}
+.big-card{background:#220033;padding:20px;border-radius:20px;box-shadow:0 0 30px #a855f7}
+.big-card img{width:260px;border-radius:15px}
+button{background:#8b5cf6;color:white;border:0;padding:10px 15px;border-radius:12px;font-weight:bold;margin:5px}
+input,select{padding:10px;border-radius:10px;border:0;margin:4px}
+.found-text{font-size:60px;color:#ffd700;text-shadow:0 0 25px #ff00ff}
+.firework{position:absolute;width:8px;height:8px;border-radius:50%;animation:explode 1s linear forwards}
+@keyframes explode{from{transform:scale(1);opacity:1}to{transform:scale(25);opacity:0}}
+</style>
+</head>
+<body>
+
+<header>
+<h1>👻 Gengar Girl Surprise Pack Tracker 👻</h1>
+<div class="stats">
+<div>Total: <span id="total">0</span></div>
+<div>Found: <span id="found">0</span></div>
+<div>Remaining: <span id="remaining">0</span></div>
+</div>
+</header>
+
+<input class="search" id="search" placeholder="Search for a card..." onkeyup="loadCards()">
+
+<div>
+<input id="cardName" placeholder="Card name">
+<input id="cardImage" type="file" accept="image/*">
+<select id="category">
+<option>Japanese</option>
+<option>Chinese</option>
+<option>English</option>
+</select>
+<button onclick="addCard()">Add Card</button>
+</div>
+
+<div class="main" id="main">
+<div id="display">
+<h2>Select a card</h2>
+<p>Click a card from Japanese, Chinese or English packs.</p>
+</div>
+</div>
+
+<div class="columns">
+<div class="column">
+<h2>🇯🇵 Japanese Surprise Packs</h2>
+<div id="Japanese"></div>
+</div>
+
+<div class="column">
+<h2>🇨🇳 Chinese Surprise Packs</h2>
+<div id="Chinese"></div>
+</div>
+
+<div class="column">
+<h2>🇬🇧 English Surprise Packs</h2>
+<div id="English"></div>
+</div>
+</div>
+
+<script>
+let cards = JSON.parse(localStorage.getItem("cards")) || [];
+
+function save(){
+localStorage.setItem("cards", JSON.stringify(cards));
+updateStats();
+loadCards();
+}
+
+function updateStats(){
+let total = cards.length;
+let found = cards.filter(c=>c.found).length;
+document.getElementById("total").innerText = total;
+document.getElementById("found").innerText = found;
+document.getElementById("remaining").innerText = total - found;
+}
+
+function addCard(){
+let name = document.getElementById("cardName").value.trim();
+let file = document.getElementById("cardImage").files[0];
+let category = document.getElementById("category").value;
+
+if(!name || !file){
+alert("Add a card name and photo first");
+return;
+}
+
+let reader = new FileReader();
+reader.onload = function(e){
+cards.push({name:name,image:e.target.result,category:category,found:false});
+document.getElementById("cardName").value="";
+document.getElementById("cardImage").value="";
+save();
 };
 reader.readAsDataURL(file);
 }
 
-function loadList(){
-let search = document.getElementById("search").value.toLowerCase();
-let list = document.getElementById("cardList");
-list.innerHTML = "";
+function loadCards(){
+["Japanese","Chinese","English"].forEach(cat=>{
+document.getElementById(cat).innerHTML="";
+});
 
-cards
-.filter(card => card.name.toLowerCase().includes(search))
-.forEach((card,index)=>{
-list.innerHTML += `
+let search = document.getElementById("search").value.toLowerCase();
+
+cards.forEach((card,index)=>{
+if(!card.name.toLowerCase().includes(search)) return;
+
+document.getElementById(card.category).innerHTML += `
 <div class="card-item ${card.found ? 'found-card' : ''}" onclick="showCard(${index})">
 <img src="${card.image}">
-<span>${card.name}</span>
+<p>${card.name}</p>
 </div>`;
 });
 }
@@ -115,35 +197,27 @@ document.getElementById("display").innerHTML = `
 <div class="big-card">
 <img src="${card.image}">
 <h1>${card.name}</h1>
+<p>${card.category} Surprise Pack</p>
 <button onclick="markFound(${index})">FOUND!</button>
-<button onclick="removeCard(${index})">Delete</button>
+<button onclick="deleteCard(${index})">Delete</button>
 </div>`;
 }
 
 function markFound(index){
 cards[index].found = true;
-localStorage.setItem("cards", JSON.stringify(cards));
 fireworks();
 document.getElementById("display").innerHTML = `
 <div>
 <div class="found-text">FOUND!</div>
 <h1>${cards[index].name}</h1>
-<img src="${cards[index].image}" style="width:280px;border-radius:15px">
+<img src="${cards[index].image}" style="width:250px;border-radius:15px">
 </div>`;
 save();
 }
 
-function removeCard(index){
+function deleteCard(index){
 if(confirm("Delete this card?")){
 cards.splice(index,1);
-save();
-document.getElementById("display").innerHTML="<h2>Select a card</h2>";
-}
-}
-
-function clearAll(){
-if(confirm("Delete all cards?")){
-cards=[];
 save();
 document.getElementById("display").innerHTML="<h2>Select a card</h2>";
 }
@@ -163,12 +237,11 @@ setTimeout(()=>f.remove(),1000);
 }
 
 updateStats();
-loadList();
+loadCards();
 </script>
 
 </body>
 </html>
-
 
 
 
