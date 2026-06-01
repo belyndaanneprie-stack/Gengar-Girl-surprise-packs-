@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>Gengar Girl Surprise Packs</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 body{background:#100018;color:white;font-family:Arial;margin:0;text-align:center}
 header{background:#250038;padding:25px;box-shadow:0 0 20px #a855f7}
@@ -9,11 +10,9 @@ header{background:#250038;padding:25px;box-shadow:0 0 20px #a855f7}
 .card{background:#220033;width:260px;padding:15px;border-radius:18px;box-shadow:0 0 15px #7d2cff}
 .card img{width:100%;border-radius:12px}
 .price{font-size:22px;font-weight:bold;color:#ffd700}
-.status{font-weight:bold;font-size:18px}
-.available{color:#00ff88}
-.sold{color:#ff4d4d}
-.found{color:#4db8ff}
-button{background:#8b5cf6;color:white;border:0;padding:10px 14px;border-radius:12px;font-weight:bold;margin:4px}
+.available{color:#00ff88;font-weight:bold}
+.sold{color:#ff4d4d;font-weight:bold}
+.collected{color:#4db8ff;font-weight:bold}
 </style>
 </head>
 <body>
@@ -23,44 +22,46 @@ button{background:#8b5cf6;color:white;border:0;padding:10px 14px;border-radius:1
 <p>Pokémon cards, surprise packs & spooky pulls</p>
 </header>
 
-<div class="shop">
-
-<div class="card">
-<img src="https://images.pokemontcg.io/base1/4.png">
-<h2>Charizard Card</h2>
-<p class="price">£120</p>
-<p id="status1" class="status available">Available</p>
-<button onclick="setStatus('status1','Available')">Available</button>
-<button onclick="setStatus('status1','Sold')">Sold</button>
-<button onclick="setStatus('status1','Found')">Found / Collected</button>
-</div>
-
-<div class="card">
-<img src="https://images.pokemontcg.io/swsh9/TG10.png">
-<h2>Surprise Pack</h2>
-<p class="price">£5</p>
-<p id="status2" class="status available">Available</p>
-<button onclick="setStatus('status2','Available')">Available</button>
-<button onclick="setStatus('status2','Sold')">Sold</button>
-<button onclick="setStatus('status2','Found')">Found / Collected</button>
-</div>
-
-</div>
+<div id="shop" class="shop">Loading products...</div>
 
 <script>
-function setStatus(id, value){
-  const item = document.getElementById(id);
-  item.innerText = value;
-  item.className = "status " + value.toLowerCase().replace(" / collected","");
-  localStorage.setItem(id, value);
-}
+const SUPABASE_URL = "https://ucmzynvmubuinhnjhlsw.supabase.co";
+const SUPABASE_KEY = "sb_publishable_jx8zuchbde4-j0DCDo6JXA_X1KyzkGv";
 
-window.onload = function(){
-  ["status1","status2"].forEach(id=>{
-    const saved = localStorage.getItem(id);
-    if(saved){ setStatus(id, saved); }
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+async function loadProducts() {
+  const shop = document.getElementById("shop");
+
+  const { data, error } = await db
+    .from("products")
+    .select("*")
+    .order("id", { ascending: true });
+
+  if (error) {
+    shop.innerHTML = "Could not load products.";
+    console.log(error);
+    return;
+  }
+
+  shop.innerHTML = "";
+
+  data.forEach(product => {
+    const statusClass = (product.status || "available").toLowerCase();
+
+    shop.innerHTML += `
+      <div class="card">
+        <img src="${product.image_url}">
+        <h2>${product.name}</h2>
+        <p>Condition: ${product.condition}</p>
+        <p class="price">£${product.price}</p>
+        <p class="${statusClass}">${product.status}</p>
+      </div>
+    `;
   });
 }
+
+loadProducts();
 </script>
 
 </body>
