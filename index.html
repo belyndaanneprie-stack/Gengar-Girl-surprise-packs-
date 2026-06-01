@@ -1,86 +1,266 @@
 
-ires.png"
-      },
-      {
-        name: "Blastoise",
-        image: "https://images.pokemontcg.io/base1/2_hires.png"
-      },
-      {
-        name: "Venusaur",
-        image: "https://images.pokemontcg.io/base1/15_hires.png"
-      },
-      {
-        name: "Pikachu",
-        image: "https://images.pokemontcg.io/base1/58_hires.png"
-      }
-    ];
+<!DOCTYPE html>
+<html>
+<head>
+<title>Gengar Girl Card Finder</title>
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#100018;
+  color:white;
+  overflow:hidden;
+}
+header{
+  background:#250038;
+  padding:15px;
+  text-align:center;
+  box-shadow:0 0 20px #a855f7;
+}
+.layout{
+  display:flex;
+  height:calc(100vh - 80px);
+}
+.sidebar{
+  width:280px;
+  background:#1b0029;
+  padding:15px;
+  overflow-y:auto;
+  box-shadow:0 0 20px #7d2cff;
+}
+input{
+  width:95%;
+  padding:12px;
+  border-radius:10px;
+  border:none;
+  margin-bottom:15px;
+}
+.card-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:#2b0040;
+  margin-bottom:10px;
+  padding:10px;
+  border-radius:12px;
+  cursor:pointer;
+}
+.card-item img{
+  width:45px;
+  border-radius:6px;
+}
+.main{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  text-align:center;
+}
+.big-card{
+  background:#220033;
+  padding:25px;
+  border-radius:20px;
+  box-shadow:0 0 30px #a855f7;
+  cursor:pointer;
+  z-index:2;
+}
+.big-card img{
+  width:320px;
+  max-height:480px;
+  object-fit:contain;
+  border-radius:15px;
+}
+.found{
+  font-size:70px;
+  color:#ffd700;
+  text-shadow:0 0 20px #ff00ff;
+  animation:pulse 0.8s infinite alternate;
+}
+@keyframes pulse{
+  from{transform:scale(1)}
+  to{transform:scale(1.15)}
+}
+.firework{
+  position:absolute;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  animation:explode 1s linear forwards;
+}
+@keyframes explode{
+  from{transform:scale(1);opacity:1}
+  to{transform:scale(25);opacity:0}
+}
+</style>
+</head>
+<body>
 
-    let selectedCard = null;
+<header>
+<h1>👻 Gengar Girl Card Finder 👻</h1>
+</header>
 
-    function displayCards(list) {
-      const cardList = document.getElementById("cardList");
-      cardList.innerHTML = "";
+<div class="layout">
+  <div class="sidebar">
+    <input id="search" placeholder="Search for a card..." onkeyup="searchCards()">
+    <div id="cardList"></div>
+  </div>
 
-      list.forEach(card => {
-        const img = document.createElement("img");
-        img.src = card.image;
-        img.className = "small-card";
-        img.onclick = () => showSelected(card);
-        cardList.appendChild(img);
-      });
-    }
+  <div class="main" id="main">
+    <div id="display">
+      <h2>Search or click a card</h2>
+      <p>The selected card will appear here</p>
+    </div>
+  </div>
+</div>
 
-    function searchCards() {
-      const text = document.getElementById("search").value.toLowerCase();
+<script>
+let cards = [
+  {
+    name:"Charizard",
+    image:"https://images.pokemontcg.io/base1/4.png"
+  },
+  {
+    name:"Pikachu",
+    image:"https://images.pokemontcg.io/swsh4/25.png"
+  },
+  {
+    name:"Gengar",
+    image:"https://images.pokemontcg.io/swsh11/66.png"
+  },
+  {
+    name:"Eevee",
+    image:"https://images.pokemontcg.io/swsh4/130.png"
+  }
+];
 
-      const filtered = cards.filter(card =>
-        card.name.toLowerCase().includes(text)
-      );
+function loadList(list = cards){
+  const cardList = document.getElementById("cardList");
+  cardList.innerHTML = "";
 
-      displayCards(filtered);
-    }
+  list.forEach(card=>{
+    cardList.innerHTML += `
+      <div class="card-item" onclick="showCard('${card.name}', '${card.image}')">
+        <img src="${card.image}">
+        <span>${card.name}</span>
+      </div>
+    `;
+  });
+}
 
-    function showSelected(card) {
-      selectedCard = card;
+function searchCards(){
+  const text = document.getElementById("search").value.toLowerCase();
+  const filtered = cards.filter(card => card.name.toLowerCase().includes(text));
+  loadList(filtered);
+}
 
-      document.getElementById("selectedArea").innerHTML = `
-        <h2>${card.name}</h2>
-        <img class="selected-card" src="${card.image}" onclick="markFound()">
-        <p>Click the card when found</p>
-      `;
-    }
+function showCard(name, image){
+  document.getElementById("display").innerHTML = `
+    <div class="big-card" onclick="markFound('${name}')">
+      <img src="${image}">
+      <h2>${name}</h2>
+      <p>Click card when found</p>
+    </div>
+  `;
+}
 
-    function markFound() {
-      createFireworks();
+function markFound(name){
+  fireworks();
+  document.getElementById("display").innerHTML = `
+    <div>
+      <div class="found">FOUND!</div>
+      <h1>${name}</h1>
+    </div>
+  `;
+}
 
-      document.getElementById("selectedArea").innerHTML += `
-        <div class="found-text">FOUND!</div>
-      `;
-    }
+function fireworks(){
+  const main = document.getElementById("main");
 
-    function createFireworks() {
-      for (let i = 0; i < 20; i++) {
-        const firework = document.createElement("div");
-        firework.className = "firework";
+  for(let i=0;i<30;i++){
+    const firework = document.createElement("div");
+    firework.className = "firework";
+    firework.style.left = Math.random() * 100 + "%";
+    firework.style.top = Math.random() * 100 + "%";
+    firework.style.background = ["#ff00ff","#ffd700","#00ffff","#ff4d4d","#00ff88"][Math.floor(Math.random()*5)];
+    main.appendChild(firework);
 
-        firework.style.left = Math.random() * window.innerWidth + "px";
-        firework.style.top = Math.random() * window.innerHeight + "px";
-        firework.style.background = randomColor();
+    setTimeout(()=>firework.remove(),1000);
+  }
+}
 
-        document.body.appendChild(firework);
+loadList();
+</script>
 
-        setTimeout(() => {
-          firework.remove();
-        }, 1000);
-      }
-    }
-
-    function randomColor() {
-      const colors = ["gold", "red", "orange", "yellow", "blue", "lime", "magenta"];
-      return colors[Math.floor(Math.random() * colors.length)];
-    }
-
-    displayCards(cards);
-  </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
