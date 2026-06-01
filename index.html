@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,6 +27,40 @@ input,select{padding:10px;border-radius:10px;border:0;margin:4px}
 @keyframes pulse{from{transform:scale(1)}to{transform:scale(1.15)}}
 .firework{position:absolute;width:8px;height:8px;border-radius:50%;animation:explode 1s linear forwards}
 @keyframes explode{from{transform:scale(1);opacity:1}to{transform:scale(25);opacity:0}}
+
+.streamer .admin-area,
+.streamer .controls,
+.streamer #rarityFilterBox,
+.streamer .search{
+display:none;
+}
+
+.streamer .grid{
+display:none;
+}
+
+.streamer .main{
+min-height:520px;
+}
+
+.streamer .big-card img{
+width:380px;
+max-height:520px;
+}
+
+.streamer h1{
+font-size:42px;
+}
+
+.streamer .stats div,
+.streamer .progress-box{
+font-size:20px;
+}
+
+.streamer .category-buttons button{
+font-size:18px;
+padding:14px 20px;
+}
 </style>
 </head>
 <body>
@@ -54,6 +87,7 @@ input,select{padding:10px;border-radius:10px;border:0;margin:4px}
 </div>
 
 <div class="controls">
+<button onclick="toggleStreamerMode()">🎥 Streamer Mode: <span id="streamerStatus">Off</span></button>
 <button onclick="toggleHideFound()">Hide Found: <span id="hideStatus">Off</span></button>
 <button onclick="sortAZ()">Sort A–Z</button>
 <button onclick="downloadBackup()">Save Backup</button>
@@ -61,7 +95,7 @@ input,select{padding:10px;border-radius:10px;border:0;margin:4px}
 <button onclick="document.getElementById('backupFile').click()">Load Backup</button>
 </div>
 
-<div>
+<div class="admin-area">
 <input id="cardName" placeholder="Card name">
 <input id="cardImage" type="file" accept="image/*">
 
@@ -83,7 +117,7 @@ input,select{padding:10px;border-radius:10px;border:0;margin:4px}
 <button onclick="addCard()">Add Card</button>
 </div>
 
-<div>
+<div id="rarityFilterBox">
 <select id="rarityFilter" onchange="loadCards()">
 <option>All Rarities</option>
 <option>Common</option>
@@ -108,6 +142,7 @@ let cards = JSON.parse(localStorage.getItem("cards")) || [];
 let currentCategory = "All";
 let currentIndex = 0;
 let hideFound = false;
+let streamerMode = false;
 
 function save(){
 localStorage.setItem("cards", JSON.stringify(cards));
@@ -135,6 +170,26 @@ ${cat}: ${catFound}/${catCards.length}
 </div>`;
 });
 document.getElementById("progressArea").innerHTML=progressHTML;
+}
+
+function toggleStreamerMode(){
+streamerMode = !streamerMode;
+document.body.classList.toggle("streamer", streamerMode);
+document.getElementById("streamerStatus").innerText = streamerMode ? "On" : "Off";
+
+if(streamerMode){
+document.getElementById("display").innerHTML = `
+<h2>🎥 Streamer Mode</h2>
+<p>Choose a category and swipe through cards.</p>
+`;
+} else {
+document.getElementById("display").innerHTML = `
+<h2>Select a card</h2>
+<p>Choose a category, then click a card.</p>
+`;
+}
+
+loadCards();
 }
 
 function setCategory(category){
@@ -335,9 +390,7 @@ loadCards();
 </script>
 
 </body>
-</html>
-
-
+</html> 
 
 
 
