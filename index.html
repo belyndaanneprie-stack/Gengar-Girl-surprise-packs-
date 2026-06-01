@@ -1,68 +1,86 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Gengar Girl Surprise Packs</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>
-body{background:#100018;color:white;font-family:Arial;margin:0;text-align:center}
-header{background:#250038;padding:25px;box-shadow:0 0 20px #a855f7}
-.shop{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;padding:25px}
-.card{background:#220033;width:260px;padding:15px;border-radius:18px;box-shadow:0 0 15px #7d2cff}
-.card img{width:100%;border-radius:12px}
-.price{font-size:22px;font-weight:bold;color:#ffd700}
-.available{color:#00ff88;font-weight:bold}
-.sold{color:#ff4d4d;font-weight:bold}
-.collected{color:#4db8ff;font-weight:bold}
-</style>
-</head>
-<body>
 
-<header>
-<h1>👻 Gengar Girl Surprise Packs 👻</h1>
-<p>Pokémon cards, surprise packs & spooky pulls</p>
-</header>
+ires.png"
+      },
+      {
+        name: "Blastoise",
+        image: "https://images.pokemontcg.io/base1/2_hires.png"
+      },
+      {
+        name: "Venusaur",
+        image: "https://images.pokemontcg.io/base1/15_hires.png"
+      },
+      {
+        name: "Pikachu",
+        image: "https://images.pokemontcg.io/base1/58_hires.png"
+      }
+    ];
 
-<div id="shop" class="shop">Loading products...</div>
+    let selectedCard = null;
 
-<script>
-const SUPABASE_URL = "https://ucmzynvmubuinhnjhlsw.supabase.co";
-const SUPABASE_KEY = "sb_publishable_jx8zuchbde4-j0DCDo6JXA_X1KyzkGv";
+    function displayCards(list) {
+      const cardList = document.getElementById("cardList");
+      cardList.innerHTML = "";
 
-const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      list.forEach(card => {
+        const img = document.createElement("img");
+        img.src = card.image;
+        img.className = "small-card";
+        img.onclick = () => showSelected(card);
+        cardList.appendChild(img);
+      });
+    }
 
-async function loadProducts() {
-  const shop = document.getElementById("shop");
+    function searchCards() {
+      const text = document.getElementById("search").value.toLowerCase();
 
-  const { data, error } = await db
-    .from("products")
-    .select("*")
-    .order("id", { ascending: true });
+      const filtered = cards.filter(card =>
+        card.name.toLowerCase().includes(text)
+      );
 
-  if (error) {
-    shop.innerHTML = "Could not load products.";
-    console.log(error);
-    return;
-  }
+      displayCards(filtered);
+    }
 
-  shop.innerHTML = "";
+    function showSelected(card) {
+      selectedCard = card;
 
-  data.forEach(product => {
-    const statusClass = (product.status || "available").toLowerCase();
+      document.getElementById("selectedArea").innerHTML = `
+        <h2>${card.name}</h2>
+        <img class="selected-card" src="${card.image}" onclick="markFound()">
+        <p>Click the card when found</p>
+      `;
+    }
 
-    shop.innerHTML += `
-      <div class="card">
-        <img src="${product.image_url}">
-        <h2>${product.name}</h2>
-        <p>Condition: ${product.condition}</p>
-        <p class="price">£${product.price}</p>
-        <p class="${statusClass}">${product.status}</p>
-      </div>
-    `;
-  });
-}
+    function markFound() {
+      createFireworks();
 
-loadProducts();
-</script>
+      document.getElementById("selectedArea").innerHTML += `
+        <div class="found-text">FOUND!</div>
+      `;
+    }
 
+    function createFireworks() {
+      for (let i = 0; i < 20; i++) {
+        const firework = document.createElement("div");
+        firework.className = "firework";
+
+        firework.style.left = Math.random() * window.innerWidth + "px";
+        firework.style.top = Math.random() * window.innerHeight + "px";
+        firework.style.background = randomColor();
+
+        document.body.appendChild(firework);
+
+        setTimeout(() => {
+          firework.remove();
+        }, 1000);
+      }
+    }
+
+    function randomColor() {
+      const colors = ["gold", "red", "orange", "yellow", "blue", "lime", "magenta"];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    displayCards(cards);
+  </script>
 </body>
 </html>
