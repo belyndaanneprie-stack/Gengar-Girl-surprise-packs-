@@ -1,59 +1,63 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>GengarGirlSuprisePacks</title>
+<title>Gengar Girl Surprise Packs</title>
 <style>
-body{
-background:#12001f;
-font-family:Arial;
-color:white;
-text-align:center;
-margin:0;
-}
-header{
-background:#2a003f;
-padding:20px;
-font-size:32px;
-font-weight:bold;
-box-shadow:0 0 15px purple;
-}
-.card{
-background:#220033;
-width:250px;
-margin:20px auto;
-padding:15px;
-border-radius:15px;
-box-shadow:0 0 15px #7d2cff;
-}
-img{
-width:100%;
-border-radius:10px;
-}
-.available{
-color:#00ff88;
-font-weight:bold;
-}
-button{
-background:#7d2cff;
-color:white;
-border:none;
-padding:10px 15px;
-border-radius:10px;
-margin-top:10px;
-}
+body{background:#100018;color:white;font-family:Arial;margin:0;text-align:center}
+header{background:#250038;padding:25px;box-shadow:0 0 20px #a855f7}
+h1{margin:0;font-size:34px}
+.shop{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;padding:25px}
+.card{background:#220033;width:260px;padding:15px;border-radius:18px;box-shadow:0 0 15px #7d2cff}
+.card img{width:100%;border-radius:12px}
+.price{font-size:22px;font-weight:bold;color:#ffd700}
+.available{color:#00ff88;font-weight:bold}
+.sold{color:#ff4d4d;font-weight:bold}
+.collected{color:#4db8ff;font-weight:bold}
+button{background:#8b5cf6;color:white;border:0;padding:12px 18px;border-radius:12px;font-weight:bold}
+footer{padding:20px;color:#ccc}
 </style>
 </head>
 <body>
 
-<header>👻 GengarGirlSuprisePacks 👻</header>
+<header>
+<h1>👻 Gengar Girl Surprise Packs 👻</h1>
+<p>Pokémon cards, surprise packs & spooky pulls</p>
+</header>
+
+<div class="shop">
 
 <div class="card">
 <img src="https://images.pokemontcg.io/base1/4.png">
-<h2>Charizard</h2>
-<p>£120</p>
+<h2>Charizard Card</h2>
+<p>Condition: Good</p>
+<p class="price">£120</p>
 <p class="available">Available</p>
-<button>Buy</button>
+<button>Message to Buy</button>
 </div>
+
+<div class="card">
+<img src="https://images.pokemontcg.io/swsh4/25.png">
+<h2>Pikachu Card</h2>
+<p>Condition: Near Mint</p>
+<p class="price">£15</p>
+<p class="sold">Sold</p>
+<button>Sold</button>
+</div>
+
+<div class="card">
+<img src="https://images.pokemontcg.io/swsh9/TG10.png">
+<h2>Surprise Pack</h2>
+<p>Random Pokémon card pack</p>
+<p class="price">£5</p>
+<p class="available">Available</p>
+<button>Message to Buy</button>
+</div>
+
+</div>
+
+<footer>
+<p>Message me to buy or collect your order 💜</p>
+</footer>
 
 </body>
 </html>
