@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,24 +10,29 @@ header{background:#250038;padding:15px;box-shadow:0 0 20px #a855f7}
 .stats{display:flex;justify-content:center;gap:15px;flex-wrap:wrap}
 .stats div{background:#3b0057;padding:8px 14px;border-radius:12px}
 .search{padding:12px;width:80%;max-width:500px;border-radius:12px;border:0;margin:15px}
-.columns{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:15px;padding:15px}
-.column{background:#1b0029;border-radius:18px;padding:12px;box-shadow:0 0 15px #7d2cff}
-.card-item{background:#2b0040;margin:8px;padding:8px;border-radius:12px;cursor:pointer}
-.card-item img{width:70px;border-radius:8px}
-.found-card{opacity:.45;text-decoration:line-through}
+.category-buttons button,.big-card button,button{background:#8b5cf6;color:white;border:0;padding:10px 15px;border-radius:12px;font-weight:bold;margin:5px}
+.category-buttons button.active{background:#ffd700;color:#220033}
+.grid{display:flex;flex-wrap:wrap;justify-content:center;gap:15px;padding:15px}
+.card-item{background:#2b0040;width:150px;padding:10px;border-radius:12px;cursor:pointer;position:relative;box-shadow:0 0 10px #7d2cff}
+.card-item img{width:100px;border-radius:8px}
+.card-item.found-card{opacity:.45}
+.card-item.found-card::after{
+content:"✖";
+position:absolute;
+top:20px;
+left:35px;
+font-size:90px;
+color:red;
+font-weight:bold;
+text-shadow:0 0 10px black;
+}
 .main{min-height:380px;display:flex;align-items:center;justify-content:center;position:relative}
 .big-card{background:#220033;padding:20px;border-radius:20px;box-shadow:0 0 30px #a855f7}
 .big-card img{width:260px;border-radius:15px}
-button{background:#8b5cf6;color:white;border:0;padding:10px 15px;border-radius:12px;font-weight:bold;margin:5px}
 input,select{padding:10px;border-radius:10px;border:0;margin:4px}
 .found-text{font-size:60px;color:#ffd700;text-shadow:0 0 25px #ff00ff}
 .firework{position:absolute;width:8px;height:8px;border-radius:50%;animation:explode 1s linear forwards}
-.swipe-buttons button{font-size:22px}
 @keyframes explode{from{transform:scale(1);opacity:1}to{transform:scale(25);opacity:0}}
-
-@media(max-width:900px){
-.columns{grid-template-columns:1fr}
-}
 </style>
 </head>
 <body>
@@ -40,6 +47,14 @@ input,select{padding:10px;border-radius:10px;border:0;margin:4px}
 </header>
 
 <input class="search" id="search" placeholder="Search for a card..." onkeyup="loadCards()">
+
+<div class="category-buttons">
+<button onclick="setCategory('All')" id="btnAll" class="active">All</button>
+<button onclick="setCategory('Japanese')" id="btnJapanese">🇯🇵 Japanese</button>
+<button onclick="setCategory('Chinese')" id="btnChinese">🇨🇳 Chinese</button>
+<button onclick="setCategory('English')" id="btnEnglish">🇬🇧 English</button>
+<button onclick="setCategory('Mixed')" id="btnMixed">🃏 Mixed</button>
+</div>
 
 <div>
 <input id="cardName" placeholder="Card name">
@@ -56,34 +71,15 @@ input,select{padding:10px;border-radius:10px;border:0;margin:4px}
 <div class="main" id="main">
 <div id="display">
 <h2>Select a card</h2>
-<p>Click a card or use swipe buttons.</p>
+<p>Choose a category, then click a card.</p>
 </div>
 </div>
 
-<div class="columns">
-<div class="column">
-<h2>🇯🇵 Japanese Surprise Packs</h2>
-<div id="Japanese"></div>
-</div>
-
-<div class="column">
-<h2>🇨🇳 Chinese Surprise Packs</h2>
-<div id="Chinese"></div>
-</div>
-
-<div class="column">
-<h2>🇬🇧 English Surprise Packs</h2>
-<div id="English"></div>
-</div>
-
-<div class="column">
-<h2>🃏 Mixed Cards</h2>
-<div id="Mixed"></div>
-</div>
-</div>
+<div id="cardGrid" class="grid"></div>
 
 <script>
 let cards = JSON.parse(localStorage.getItem("cards")) || [];
+let currentCategory = "All";
 let currentIndex = 0;
 
 function save(){
@@ -98,6 +94,15 @@ let found = cards.filter(c=>c.found).length;
 document.getElementById("total").innerText = total;
 document.getElementById("found").innerText = found;
 document.getElementById("remaining").innerText = total - found;
+}
+
+function setCategory(category){
+currentCategory = category;
+["All","Japanese","Chinese","English","Mixed"].forEach(cat=>{
+document.getElementById("btn"+cat).classList.remove("active");
+});
+document.getElementById("btn"+category).classList.add("active");
+loadCards();
 }
 
 function addCard(){
@@ -121,25 +126,24 @@ reader.readAsDataURL(file);
 }
 
 function loadCards(){
-["Japanese","Chinese","English","Mixed"].forEach(cat=>{
-document.getElementById(cat).innerHTML="";
-});
-
+let grid = document.getElementById("cardGrid");
 let search = document.getElementById("search").value.toLowerCase();
+grid.innerHTML = "";
 
 cards.forEach((card,index)=>{
+if(currentCategory !== "All" && card.category !== currentCategory) return;
 if(!card.name.toLowerCase().includes(search)) return;
 
-document.getElementById(card.category).innerHTML += `
+grid.innerHTML += `
 <div class="card-item ${card.found ? 'found-card' : ''}" onclick="showCard(${index})">
 <img src="${card.image}">
 <p>${card.name}</p>
+<small>${card.category}</small>
 </div>`;
 });
 }
 
 function showCard(index){
-if(cards.length === 0) return;
 currentIndex = index;
 let card = cards[index];
 
@@ -148,12 +152,8 @@ document.getElementById("display").innerHTML = `
 <img src="${card.image}">
 <h1>${card.name}</h1>
 <p>${card.category}</p>
-
-<div class="swipe-buttons">
 <button onclick="previousCard()">⬅️</button>
 <button onclick="nextCard()">➡️</button>
-</div>
-
 <button onclick="markFound(${index})">FOUND!</button>
 <button onclick="deleteCard(${index})">Delete</button>
 </div>`;
@@ -212,7 +212,6 @@ loadCards();
 
 </body>
 </html>
-
 
 
 
