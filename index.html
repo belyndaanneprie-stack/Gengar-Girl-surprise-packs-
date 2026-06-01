@@ -1,68 +1,4 @@
 
-
-<header>
-<h1>👻 Gengar Girl Card Finder 👻</h1>
-<div class="stats">
-<div>Total: <span id="total">0</span></div>
-<div>Found: <span id="found">0</span></div>
-<div>Remaining: <span id="remaining">0</span></div>
-</div>
-</header>
-
-<div class="layout">
-<div class="sidebar">
-<input id="search" placeholder="Search card..." onkeyup="loadList()">
-
-<h3>Add Card</h3>
-<input id="cardName" placeholder="Card name">
-<input id="cardImage" type="file" accept="image/*">
-<button onclick="addCard()">Add Card</button>
-<button onclick="clearAll()">Clear All</button>
-
-<div id="cardList"></div>
-</div>
-
-<div class="main" id="main">
-<div id="display">
-<h2>Select a card</h2>
-<p>Add cards on the left, then click one.</p>
-</div>
-</div>
-</div>
-
-<script>
-let cards = JSON.parse(localStorage.getItem("cards")) || [];
-
-function save(){
-localStorage.setItem("cards", JSON.stringify(cards));
-updateStats();
-loadList();
-}
-
-function updateStats(){
-let total = cards.length;
-let found = cards.filter(c=>c.found).length;
-document.getElementById("total").innerText = total;
-document.getElementById("found").innerText = found;
-document.getElementById("remaining").innerText = total - found;
-}
-
-function addCard(){
-let name = document.getElementById("cardName").value.trim();
-let file = document.getElementById("cardImage").files[0];
-
-if(!name || !file){
-alert("Add a card name and photo first");
-return;
-}
-
-let reader = new FileReader();
-reader.onload = function(e){
-cards.push({name:name,image:e.target.result,found:false});
-document.getElementById("cardName").value="";
-document.getElementById("cardImage").value="";
-save();
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -242,7 +178,6 @@ loadCards();
 
 </body>
 </html>
-
 
 
 
