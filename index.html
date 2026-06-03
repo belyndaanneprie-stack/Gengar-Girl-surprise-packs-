@@ -1,396 +1,295 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 <head>
-<title>Gengar Girl Surprise Pack Tracker</title>
-<style>
-body{margin:0;font-family:Arial;background:radial-gradient(circle,#2b0040,#08000d);color:white;text-align:center}
-header{background:#1a0028;padding:15px;box-shadow:0 0 25px #a855f7}
-h1{margin:5px;font-size:34px;text-shadow:0 0 15px #a855f7}
-.stats,.progress-area,.controls{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:10px}
-.stats div,.progress-box{background:#30004a;padding:8px 14px;border-radius:12px;box-shadow:0 0 10px #7d2cff}
-.progress{width:160px;background:#100018;border-radius:10px;overflow:hidden;margin-top:5px}
-.bar{height:10px;background:#ffd700;width:0%}
-.search{padding:12px;width:80%;max-width:500px;border-radius:12px;border:0;margin:10px}
-button{background:#8b5cf6;color:white;border:0;padding:10px 15px;border-radius:12px;font-weight:bold;margin:5px}
-button:hover{background:#a855f7}
-.category-buttons button.active{background:#ffd700;color:#220033}
-input,select{padding:10px;border-radius:10px;border:0;margin:4px}
-.grid{display:flex;flex-wrap:wrap;justify-content:center;gap:15px;padding:15px}
-.card-item{background:#230035;width:150px;padding:10px;border-radius:14px;cursor:pointer;position:relative;box-shadow:0 0 12px #7d2cff}
-.card-item img{width:105px;height:145px;object-fit:cover;border-radius:8px}
-.card-item.found-card{opacity:.4}
-.card-item.found-card::after{content:"✖";position:absolute;top:15px;left:35px;font-size:95px;color:red;font-weight:bold;text-shadow:0 0 10px black}
-.main{min-height:390px;display:flex;align-items:center;justify-content:center;position:relative}
-.big-card{background:#220033;padding:20px;border-radius:22px;box-shadow:0 0 35px #a855f7}
-.big-card img{width:270px;max-height:390px;object-fit:contain;border-radius:15px}
-.found-text,.complete-text{font-size:60px;color:#ffd700;text-shadow:0 0 25px #ff00ff;animation:pulse .7s infinite alternate}
-@keyframes pulse{from{transform:scale(1)}to{transform:scale(1.15)}}
-.firework{position:absolute;width:8px;height:8px;border-radius:50%;animation:explode 1s linear forwards}
-@keyframes explode{from{transform:scale(1);opacity:1}to{transform:scale(25);opacity:0}}
+  <title>Gengar Girl Packs Tracker</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle, #3b005c, #08000d);
+      color: white;
+      text-align: center;
+    }
 
-.streamer .admin-area,
-.streamer .controls,
-.streamer #rarityFilterBox,
-.streamer .search{
-display:none;
-}
+    header {
+      padding: 25px;
+      background: #16001f;
+      box-shadow: 0 0 25px #a855f7;
+    }
 
-.streamer .grid{
-display:none;
-}
+    .logo {
+      font-size: 42px;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 0 0 10px #d946ef, 0 0 25px #9333ea;
+    }
 
-.streamer .main{
-min-height:520px;
-}
+    .logo span {
+      color: #ffd700;
+    }
 
-.streamer .big-card img{
-width:380px;
-max-height:520px;
-}
+    .tagline {
+      color: #d8b4fe;
+      margin-top: 5px;
+    }
 
-.streamer h1{
-font-size:42px;
-}
+    .mode-box {
+      margin: 20px;
+    }
 
-.streamer .stats div,
-.streamer .progress-box{
-font-size:20px;
-}
+    button {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 12px;
+      background: #9333ea;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 5px;
+      box-shadow: 0 0 10px #a855f7;
+    }
 
-.streamer .category-buttons button{
-font-size:18px;
-padding:14px 20px;
-}
-</style>
+    button:hover {
+      background: #a855f7;
+    }
+
+    input {
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      margin: 8px;
+      width: 250px;
+      max-width: 80%;
+    }
+
+    .progress-box {
+      background: #2a003f;
+      margin: 15px auto;
+      padding: 15px;
+      border-radius: 15px;
+      width: 85%;
+      max-width: 500px;
+      box-shadow: 0 0 15px #7e22ce;
+    }
+
+    .progress {
+      background: #111;
+      border-radius: 20px;
+      overflow: hidden;
+      height: 18px;
+      margin-top: 10px;
+    }
+
+    .bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #ffd700, #ff4dff);
+    }
+
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      padding: 20px;
+    }
+
+    .card {
+      background: #250035;
+      width: 180px;
+      padding: 12px;
+      border-radius: 15px;
+      box-shadow: 0 0 12px #7e22ce;
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 10px;
+      background: white;
+    }
+
+    .found {
+      opacity: 0.6;
+      border: 2px solid #ffd700;
+    }
+
+    .found-label {
+      color: #ffd700;
+      font-weight: bold;
+    }
+
+    .admin-only {
+      display: none;
+    }
+
+    #celebration {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      font-size: 40px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      animation: pop 1s ease;
+      z-index: 999;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(0.5); opacity: 0; }
+      50% { transform: scale(1.3); opacity: 1; }
+      100% { transform: scale(1); opacity: 0; }
+    }
+  </style>
 </head>
+
 <body>
 
 <header>
-<h1>👻 Gengar Girl Surprise Pack Tracker 👻</h1>
-<div class="stats">
-<div>Total: <span id="total">0</span></div>
-<div>Found: <span id="found">0</span></div>
-<div>Remaining: <span id="remaining">0</span></div>
-</div>
-
-<div class="progress-area" id="progressArea"></div>
+  <div class="logo">👻 Gengar Girl <span>Packs</span> ✨</div>
+  <div class="tagline">Live Pokémon Pack Tracker</div>
 </header>
 
-<input class="search" id="search" placeholder="Search for a card..." onkeyup="loadCards()">
+<div class="mode-box">
+  <button onclick="setPublicMode()">Public View</button>
+  <button onclick="showAdminLogin()">Admin Login</button>
 
-<div class="category-buttons">
-<button onclick="setCategory('All')" id="btnAll" class="active">All</button>
-<button onclick="setCategory('Japanese')" id="btnJapanese">🇯🇵 Japanese</button>
-<button onclick="setCategory('Chinese')" id="btnChinese">🇨🇳 Chinese</button>
-<button onclick="setCategory('English')" id="btnEnglish">🇬🇧 English</button>
-<button onclick="setCategory('Mixed')" id="btnMixed">🃏 Mixed</button>
+  <div id="adminLogin" style="display:none;">
+    <input type="password" id="adminPassword" placeholder="Enter admin password">
+    <button onclick="loginAdmin()">Unlock Admin</button>
+  </div>
+
+  <p id="modeText">Current mode: Public View</p>
 </div>
 
-<div class="controls">
-<button onclick="toggleStreamerMode()">🎥 Streamer Mode: <span id="streamerStatus">Off</span></button>
-<button onclick="toggleHideFound()">Hide Found: <span id="hideStatus">Off</span></button>
-<button onclick="sortAZ()">Sort A–Z</button>
-<button onclick="downloadBackup()">Save Backup</button>
-<input type="file" id="backupFile" accept=".json" onchange="loadBackup()" style="display:none">
-<button onclick="document.getElementById('backupFile').click()">Load Backup</button>
+<div class="progress-box">
+  <div id="progressText">Found 0 of 0 cards</div>
+  <div class="progress">
+    <div class="bar" id="progressBar"></div>
+  </div>
 </div>
 
-<div class="admin-area">
-<input id="cardName" placeholder="Card name">
-<input id="cardImage" type="file" accept="image/*">
+<input type="text" id="searchBox" placeholder="Search Pokémon card..." onkeyup="renderCards()">
 
-<select id="category">
-<option>Japanese</option>
-<option>Chinese</option>
-<option>English</option>
-<option>Mixed</option>
-</select>
+<div class="cards" id="cardList"></div>
 
-<select id="rarity">
-<option>Common</option>
-<option>Rare</option>
-<option>Ultra Rare</option>
-<option>Secret Rare</option>
-<option>Promo</option>
-</select>
-
-<button onclick="addCard()">Add Card</button>
-</div>
-
-<div id="rarityFilterBox">
-<select id="rarityFilter" onchange="loadCards()">
-<option>All Rarities</option>
-<option>Common</option>
-<option>Rare</option>
-<option>Ultra Rare</option>
-<option>Secret Rare</option>
-<option>Promo</option>
-</select>
-</div>
-
-<div class="main" id="main">
-<div id="display">
-<h2>Select a card</h2>
-<p>Choose a category, then click a card.</p>
-</div>
-</div>
-
-<div id="cardGrid" class="grid"></div>
+<div id="celebration">🎆✨ FOUND! ✨🎆</div>
 
 <script>
-let cards = JSON.parse(localStorage.getItem("cards")) || [];
-let currentCategory = "All";
-let currentIndex = 0;
-let hideFound = false;
-let streamerMode = false;
+  let adminMode = false;
 
-function save(){
-localStorage.setItem("cards", JSON.stringify(cards));
-updateStats();
-loadCards();
-}
+  let cards = JSON.parse(localStorage.getItem("gengarCards")) || [
+    {
+      name: "Gengar",
+      image: "https://images.pokemontcg.io/swsh8/157_hires.png",
+      found: false
+    },
+    {
+      name: "Pikachu",
+      image: "https://images.pokemontcg.io/swsh4/43_hires.png",
+      found: false
+    },
+    {
+      name: "Charizard",
+      image: "https://images.pokemontcg.io/swsh35/20_hires.png",
+      found: false
+    },
+    {
+      name: "Eevee",
+      image: "https://images.pokemontcg.io/swsh4/130_hires.png",
+      found: false
+    }
+  ];
 
-function updateStats(){
-let total = cards.length;
-let found = cards.filter(c=>c.found).length;
-document.getElementById("total").innerText = total;
-document.getElementById("found").innerText = found;
-document.getElementById("remaining").innerText = total - found;
+  function saveCards() {
+    localStorage.setItem("gengarCards", JSON.stringify(cards));
+  }
 
-let cats=["Japanese","Chinese","English","Mixed"];
-let progressHTML="";
-cats.forEach(cat=>{
-let catCards=cards.filter(c=>c.category===cat);
-let catFound=catCards.filter(c=>c.found).length;
-let percent=catCards.length ? Math.round((catFound/catCards.length)*100) : 0;
-progressHTML += `
-<div class="progress-box">
-${cat}: ${catFound}/${catCards.length}
-<div class="progress"><div class="bar" style="width:${percent}%"></div></div>
-</div>`;
-});
-document.getElementById("progressArea").innerHTML=progressHTML;
-}
+  function setPublicMode() {
+    adminMode = false;
+    document.getElementById("modeText").innerText = "Current mode: Public View";
+    document.getElementById("adminLogin").style.display = "none";
+    renderCards();
+  }
 
-function toggleStreamerMode(){
-streamerMode = !streamerMode;
-document.body.classList.toggle("streamer", streamerMode);
-document.getElementById("streamerStatus").innerText = streamerMode ? "On" : "Off";
+  function showAdminLogin() {
+    document.getElementById("adminLogin").style.display = "block";
+  }
 
-if(streamerMode){
-document.getElementById("display").innerHTML = `
-<h2>🎥 Streamer Mode</h2>
-<p>Choose a category and swipe through cards.</p>
-`;
-} else {
-document.getElementById("display").innerHTML = `
-<h2>Select a card</h2>
-<p>Choose a category, then click a card.</p>
-`;
-}
+  function loginAdmin() {
+    const password = document.getElementById("adminPassword").value;
 
-loadCards();
-}
+    if (password === "gengar123") {
+      adminMode = true;
+      document.getElementById("modeText").innerText = "Current mode: Admin View";
+      document.getElementById("adminLogin").style.display = "none";
+      renderCards();
+    } else {
+      alert("Wrong password");
+    }
+  }
 
-function setCategory(category){
-currentCategory = category;
-["All","Japanese","Chinese","English","Mixed"].forEach(cat=>{
-document.getElementById("btn"+cat).classList.remove("active");
-});
-document.getElementById("btn"+category).classList.add("active");
-document.getElementById("display").innerHTML=`<h2>${category} Cards</h2><p>Select a card from this category.</p>`;
-loadCards();
-}
+  function toggleFound(index) {
+    cards[index].found = !cards[index].found;
+    saveCards();
 
-function addCard(){
-let name=document.getElementById("cardName").value.trim();
-let file=document.getElementById("cardImage").files[0];
-let category=document.getElementById("category").value;
-let rarity=document.getElementById("rarity").value;
+    if (cards[index].found) {
+      celebrate();
+    }
 
-if(!name || !file){alert("Add a card name and photo first");return;}
+    renderCards();
+  }
 
-let reader=new FileReader();
-reader.onload=function(e){
-cards.push({name:name,image:e.target.result,category:category,rarity:rarity,found:false});
-document.getElementById("cardName").value="";
-document.getElementById("cardImage").value="";
-save();
-};
-reader.readAsDataURL(file);
-}
+  function celebrate() {
+    const celebration = document.getElementById("celebration");
+    celebration.style.display = "flex";
 
-function getVisibleCards(){
-let search=document.getElementById("search").value.toLowerCase();
-let rarityFilter=document.getElementById("rarityFilter").value;
+    setTimeout(() => {
+      celebration.style.display = "none";
+    }, 1000);
+  }
 
-return cards.map((card,index)=>({...card,realIndex:index}))
-.filter(card=>{
-if(currentCategory!=="All" && card.category!==currentCategory) return false;
-if(!card.name.toLowerCase().includes(search)) return false;
-if(rarityFilter!=="All Rarities" && card.rarity!==rarityFilter) return false;
-if(hideFound && card.found) return false;
-return true;
-});
-}
+  function updateProgress() {
+    const found = cards.filter(card => card.found).length;
+    const total = cards.length;
+    const percent = total === 0 ? 0 : (found / total) * 100;
 
-function loadCards(){
-let grid=document.getElementById("cardGrid");
-grid.innerHTML="";
-let visibleCards=getVisibleCards();
+    document.getElementById("progressText").innerText = `Found ${found} of ${total} cards`;
+    document.getElementById("progressBar").style.width = percent + "%";
+  }
 
-visibleCards.forEach(card=>{
-grid.innerHTML += `
-<div class="card-item ${card.found ? 'found-card' : ''}" onclick="showCard(${card.realIndex})">
-<img src="${card.image}">
-<p>${card.name}</p>
-<small>${card.category}</small><br>
-<small>${card.rarity || "Common"}</small>
-</div>`;
-});
-}
+  function renderCards() {
+    const search = document.getElementById("searchBox").value.toLowerCase();
+    const list = document.getElementById("cardList");
+    list.innerHTML = "";
 
-function showCard(index){
-currentIndex=index;
-let card=cards[index];
+    cards.forEach((card, index) => {
+      if (!card.name.toLowerCase().includes(search)) return;
 
-document.getElementById("display").innerHTML=`
-<div class="big-card">
-<img src="${card.image}">
-<h1>${card.name}</h1>
-<p>${card.category} • ${card.rarity || "Common"}</p>
-<button onclick="previousCard()">⬅️</button>
-<button onclick="nextCard()">➡️</button>
-<button onclick="markFound(${index})">FOUND!</button>
-<button onclick="unmarkFound(${index})">Undo Found</button>
-<button onclick="deleteCard(${index})">Delete</button>
-</div>`;
-}
+      const div = document.createElement("div");
+      div.className = "card" + (card.found ? " found" : "");
 
-function nextCard(){
-let visibleCards=getVisibleCards();
-if(visibleCards.length===0)return;
-let position=visibleCards.findIndex(card=>card.realIndex===currentIndex);
-let nextPosition=(position+1)%visibleCards.length;
-showCard(visibleCards[nextPosition].realIndex);
-}
+      div.innerHTML = `
+        <img src="${card.image}" alt="${card.name}">
+        <h3>${card.name}</h3>
+        <p class="found-label">${card.found ? "FOUND" : "Not found yet"}</p>
+        ${
+          adminMode
+          ? `<button onclick="toggleFound(${index})">${card.found ? "Mark Not Found" : "Mark Found"}</button>`
+          : ""
+        }
+      `;
 
-function previousCard(){
-let visibleCards=getVisibleCards();
-if(visibleCards.length===0)return;
-let position=visibleCards.findIndex(card=>card.realIndex===currentIndex);
-let previousPosition=(position-1+visibleCards.length)%visibleCards.length;
-showCard(visibleCards[previousPosition].realIndex);
-}
+      list.appendChild(div);
+    });
 
-function markFound(index){
-cards[index].found=true;
-playSound();
-fireworks();
+    updateProgress();
+  }
 
-document.getElementById("display").innerHTML=`
-<div>
-<div class="found-text">FOUND!</div>
-<h1>${cards[index].name}</h1>
-<img src="${cards[index].image}" style="width:250px;border-radius:15px">
-<br>
-<button onclick="showCard(${index})">Back to Card</button>
-</div>`;
-
-save();
-checkComplete();
-}
-
-function unmarkFound(index){
-cards[index].found=false;
-save();
-showCard(index);
-}
-
-function deleteCard(index){
-if(confirm("Delete this card?")){
-cards.splice(index,1);
-save();
-document.getElementById("display").innerHTML="<h2>Select a card</h2>";
-}
-}
-
-function toggleHideFound(){
-hideFound=!hideFound;
-document.getElementById("hideStatus").innerText=hideFound ? "On" : "Off";
-loadCards();
-}
-
-function sortAZ(){
-cards.sort((a,b)=>a.name.localeCompare(b.name));
-save();
-}
-
-function downloadBackup(){
-let data=JSON.stringify(cards);
-let blob=new Blob([data],{type:"application/json"});
-let url=URL.createObjectURL(blob);
-let a=document.createElement("a");
-a.href=url;
-a.download="gengar-girl-card-backup.json";
-a.click();
-URL.revokeObjectURL(url);
-}
-
-function loadBackup(){
-let file=document.getElementById("backupFile").files[0];
-if(!file)return;
-
-let reader=new FileReader();
-reader.onload=function(e){
-try{
-cards=JSON.parse(e.target.result);
-save();
-alert("Backup loaded!");
-}catch{
-alert("Could not load backup file.");
-}
-};
-reader.readAsText(file);
-}
-
-function checkComplete(){
-if(cards.length>0 && cards.every(c=>c.found)){
-setTimeout(()=>{
-fireworks();
-document.getElementById("display").innerHTML=`
-<div>
-<div class="complete-text">COLLECTION COMPLETE!</div>
-<h1>🎉 All cards found! 🎉</h1>
-</div>`;
-},700);
-}
-}
-
-function fireworks(){
-let main=document.getElementById("main");
-for(let i=0;i<50;i++){
-let f=document.createElement("div");
-f.className="firework";
-f.style.left=Math.random()*100+"%";
-f.style.top=Math.random()*100+"%";
-f.style.background=["#ff00ff","#ffd700","#00ffff","#ff4d4d","#00ff88"][Math.floor(Math.random()*5)];
-main.appendChild(f);
-setTimeout(()=>f.remove(),1000);
-}
-}
-
-function playSound(){
-let audio=new Audio("https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg");
-audio.play();
-}
-
-updateStats();
-loadCards();
+  renderCards();
 </script>
 
 </body>
-</html> 
+</html>
 
 
 
