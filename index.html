@@ -6,73 +6,82 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #030006;
+      background:
+        radial-gradient(circle at top, #3b005c, #08000d 55%, #020003);
       color: white;
       text-align: center;
     }
 
-    header {
-      min-height: 310px;
+    .hero-banner {
+      height: 360px;
       background:
-        linear-gradient(to bottom, rgba(0,0,0,0.05), #050008 95%),
-        url("gengar-banner.jpg") center/cover no-repeat;
-      display: flex;
-      align-items: end;
-      justify-content: center;
-      padding-bottom: 20px;
-    }
-
-    .logo {
-      font-size: 58px;
-      font-weight: 900;
-      color: #fff;
-      text-transform: uppercase;
-      text-shadow:
-        0 0 8px #ff2bd6,
-        0 0 18px #ff2bd6,
-        4px 4px 0 #6b21a8;
-      letter-spacing: 2px;
-    }
-
-    .logo span {
-      color: #a855f7;
-      display: block;
-      font-size: 54px;
+        linear-gradient(to bottom, rgba(0,0,0,0.05), rgba(5,0,8,0.9)),
+        url("gengar-banner.jpg") center center / cover no-repeat;
+      border-bottom: 3px solid #a855f7;
+      box-shadow: 0 0 35px #a855f7;
     }
 
     .main {
       width: 94%;
       max-width: 1200px;
-      margin: -10px auto 30px;
-      background: rgba(22, 0, 35, 0.92);
-      border: 1px solid #6b21a8;
-      border-radius: 18px;
-      box-shadow: 0 0 25px #4c1d95;
-      padding: 18px;
+      margin: -75px auto 30px;
+      background: rgba(18, 0, 31, 0.96);
+      border: 2px solid #7e22ce;
+      border-radius: 25px;
+      box-shadow:
+        0 0 25px rgba(168,85,247,0.5),
+        0 0 60px rgba(236,72,153,0.18);
+      padding: 25px;
+    }
+
+    .title {
+      font-size: 42px;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: white;
+      text-shadow:
+        0 0 10px #ff2bd6,
+        0 0 25px #a855f7;
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      color: #d8b4fe;
+      margin-bottom: 20px;
     }
 
     .top-row {
       display: grid;
-      grid-template-columns: 1fr 1fr 260px;
+      grid-template-columns: 1fr 1fr 280px;
       gap: 15px;
       align-items: center;
     }
 
+    .panel {
+      background: rgba(30, 0, 50, 0.85);
+      border: 1px solid #6b21a8;
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: 0 0 14px rgba(168,85,247,0.28);
+    }
+
     button {
-      padding: 14px 18px;
+      padding: 13px 17px;
       border: 1px solid #7e22ce;
-      border-radius: 10px;
-      background: #12001f;
+      border-radius: 12px;
+      background: #150022;
       color: white;
       font-weight: bold;
       cursor: pointer;
       margin: 5px;
-      box-shadow: 0 0 12px rgba(168,85,247,0.4);
+      box-shadow: 0 0 12px rgba(168,85,247,0.35);
     }
 
     button:hover {
@@ -84,9 +93,9 @@
     }
 
     input, select {
-      padding: 14px;
-      border-radius: 9px;
-      border: 1px solid #4c1d95;
+      padding: 13px;
+      border-radius: 10px;
+      border: 1px solid #6b21a8;
       background: #0b0015;
       color: white;
       margin: 6px;
@@ -106,17 +115,9 @@
       color: #ff4fd8;
     }
 
-    .progress-box {
-      border: 1px solid #6b21a8;
-      border-radius: 12px;
-      padding: 12px;
-      text-align: left;
-      background: rgba(0,0,0,0.25);
-    }
-
     .progress {
-      height: 12px;
-      background: #16001f;
+      height: 13px;
+      background: #100018;
       border: 1px solid #6b21a8;
       border-radius: 20px;
       overflow: hidden;
@@ -126,34 +127,49 @@
     .bar {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, #ff4fd8, #a855f7);
+      background: linear-gradient(90deg, #ff4fd8, #a855f7, #ffd700);
     }
 
-    .admin-box, .filters {
-      margin-top: 16px;
-      padding: 16px;
-      border: 1px solid #4c1d95;
-      border-radius: 12px;
-      background: rgba(18,0,31,0.75);
+    .admin-box {
+      margin-top: 18px;
+      display: none;
     }
 
     .admin-title {
       color: #ff4fd8;
+      font-size: 22px;
       font-weight: bold;
-      text-align: left;
       margin-bottom: 10px;
     }
 
-    .admin-only {
-      display: none;
-    }
-
     .filters {
+      margin-top: 18px;
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
+    }
+
+    .section-stats {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .stat-card {
+      background: #16001f;
+      border: 1px solid #7e22ce;
+      border-radius: 15px;
+      padding: 12px;
+      box-shadow: 0 0 12px rgba(168,85,247,0.25);
+    }
+
+    .stat-card strong {
+      color: #ff4fd8;
+      display: block;
+      margin-bottom: 4px;
     }
 
     .cards {
@@ -162,48 +178,64 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 16px;
-      min-height: 360px;
-      border: 1px dashed #6b21a8;
-      border-radius: 14px;
+      min-height: 380px;
+      border: 1px dashed #7e22ce;
+      border-radius: 22px;
       padding: 22px;
+      background: rgba(5,0,10,0.35);
     }
 
     .empty {
+      background: rgba(30,0,50,0.88);
+      border: 2px solid #9333ea;
+      border-radius: 25px;
+      min-height: 350px;
       width: 100%;
+      box-shadow: 0 0 25px rgba(168,85,247,0.45);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      min-height: 330px;
-      color: #ddd;
     }
 
     .empty-icon {
-      font-size: 70px;
+      font-size: 75px;
       margin-bottom: 10px;
       filter: drop-shadow(0 0 12px #a855f7);
     }
 
+    .empty h1 {
+      color: white;
+      text-shadow: 0 0 15px #ec4899;
+      margin: 5px;
+    }
+
+    .empty p {
+      color: #d8b4fe;
+      max-width: 500px;
+    }
+
     .card {
-      width: 210px;
+      width: 215px;
       background: #12001f;
-      border: 1px solid #4c1d95;
-      border-radius: 14px;
+      border: 1px solid #6b21a8;
+      border-radius: 16px;
       padding: 12px;
-      box-shadow: 0 0 15px rgba(168,85,247,0.25);
+      box-shadow: 0 0 16px rgba(168,85,247,0.32);
     }
 
     .card img {
       width: 100%;
-      height: 260px;
+      height: 265px;
       object-fit: contain;
       background: white;
-      border-radius: 10px;
+      border-radius: 12px;
     }
 
     .found {
-      opacity: 0.6;
-      border-color: #ffd700;
+      opacity: 0.62;
+      border: 2px solid #ffd700;
+      box-shadow: 0 0 18px rgba(255,215,0,0.45);
     }
 
     .badge {
@@ -242,26 +274,30 @@
       pointer-events: none;
     }
 
-    @media(max-width: 800px) {
+    @media(max-width: 850px) {
+      .hero-banner {
+        height: 240px;
+      }
+
+      .main {
+        margin-top: -45px;
+        padding: 16px;
+      }
+
       .top-row {
         grid-template-columns: 1fr;
       }
 
-      .logo {
-        font-size: 38px;
-      }
-
-      .logo span {
-        font-size: 36px;
-      }
-
-      header {
-        min-height: 220px;
+      .section-stats {
+        grid-template-columns: 1fr 1fr;
       }
 
       input, select, button {
         width: 100%;
-        max-width: 100%;
+      }
+
+      .title {
+        font-size: 30px;
       }
     }
   </style>
@@ -269,17 +305,16 @@
 
 <body>
 
-<header>
-  <div class="logo">
-    Gengar Girl
-    <span>Packs</span>
-  </div>
-</header>
+<div class="hero-banner"></div>
 
 <div class="main">
 
+  <div class="title">Gengar Girl Packs</div>
+  <div class="subtitle">Live Pokémon Pack Tracker</div>
+
   <div class="top-row">
-    <div>
+
+    <div class="panel">
       <button class="primary" onclick="setPublicMode()">👁 Public View</button>
       <button onclick="showAdminLogin()">🔒 Admin Login</button>
 
@@ -289,11 +324,12 @@
       </div>
     </div>
 
-    <div class="mode-text">
-      Current mode: <span class="pink" id="modeName">Public View</span>
+    <div class="panel mode-text">
+      Current mode:<br>
+      <span class="pink" id="modeName">Public View</span>
     </div>
 
-    <div class="progress-box">
+    <div class="panel">
       <strong>Found</strong>
       <div id="progressText">0 of 0 Cards</div>
       <strong>Progress</strong>
@@ -302,10 +338,11 @@
         <div class="bar" id="progressBar"></div>
       </div>
     </div>
+
   </div>
 
-  <div class="admin-box admin-only">
-    <div class="admin-title">✦ Add New Card (Admin Only)</div>
+  <div class="panel admin-box admin-only">
+    <div class="admin-title">✦ Add New Card</div>
 
     <input id="newName" placeholder="Card name">
 
@@ -328,7 +365,26 @@
     <button class="primary" onclick="addCard()">＋ Add Card</button>
   </div>
 
-  <div class="filters">
+  <div class="section-stats">
+    <div class="stat-card">
+      <strong>English</strong>
+      <span id="englishStat">0/0</span>
+    </div>
+    <div class="stat-card">
+      <strong>Japanese</strong>
+      <span id="japaneseStat">0/0</span>
+    </div>
+    <div class="stat-card">
+      <strong>Chinese</strong>
+      <span id="chineseStat">0/0</span>
+    </div>
+    <div class="stat-card">
+      <strong>Mix</strong>
+      <span id="mixStat">0/0</span>
+    </div>
+  </div>
+
+  <div class="panel filters">
     <input id="searchBox" placeholder="🔍 Search cards..." onkeyup="renderCards()">
 
     <select id="sectionFilter" onchange="renderCards()">
@@ -362,10 +418,10 @@
 
 <script>
 let adminMode = false;
-let cards = JSON.parse(localStorage.getItem("gengarCardsV3")) || [];
+let cards = JSON.parse(localStorage.getItem("gengarCardsV31")) || [];
 
 function saveCards() {
-  localStorage.setItem("gengarCardsV3", JSON.stringify(cards));
+  localStorage.setItem("gengarCardsV31", JSON.stringify(cards));
 }
 
 function setPublicMode() {
@@ -478,6 +534,20 @@ function updateProgress() {
   document.getElementById("progressText").innerText = found + " of " + total + " Cards";
   document.getElementById("percentText").innerText = percent + "%";
   document.getElementById("progressBar").style.width = percent + "%";
+
+  updateSectionStats();
+}
+
+function updateSectionStats() {
+  const sections = ["English", "Japanese", "Chinese", "Mix"];
+
+  sections.forEach(function(section) {
+    const total = cards.filter(card => card.section === section).length;
+    const found = cards.filter(card => card.section === section && card.found).length;
+
+    const id = section.toLowerCase() + "Stat";
+    document.getElementById(id).innerText = found + "/" + total;
+  });
 }
 
 function renderCards() {
@@ -499,9 +569,8 @@ function renderCards() {
     list.innerHTML = `
       <div class="empty">
         <div class="empty-icon">👻</div>
-        <h1>No cards added yet!</h1>
-        <p>Login as admin to add your first card.</p>
-        <p>Once added, they will appear here.</p>
+        <h1>No Cards Added Yet!</h1>
+        <p>Login as admin and start building your Gengar Girl Packs collection.</p>
         <button class="primary" onclick="showAdminLogin()">🔒 Admin Login</button>
       </div>
     `;
@@ -513,8 +582,9 @@ function renderCards() {
     list.innerHTML = `
       <div class="empty">
         <div class="empty-icon">🔍</div>
-        <h1>No cards found</h1>
+        <h1>No Cards Found</h1>
         <p>Try clearing your filters.</p>
+        <button onclick="clearFilters()">Clear Filters</button>
       </div>
     `;
     updateProgress();
@@ -559,6 +629,8 @@ renderCards();
 
 </body>
 </html>
+
+
 
 
 
