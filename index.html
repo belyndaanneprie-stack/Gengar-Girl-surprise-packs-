@@ -1,7 +1,9 @@
-<!DOCTYPE html>
+
+
+   <!DOCTYPE html>
 <html>
 <head>
-  <title>Gengar Girl Packs Tracker V5</title>
+  <title>Gengar Girl Packs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -16,23 +18,63 @@
     }
 
     header {
-      padding: 35px 20px;
-      background: #16001f;
+      padding: 30px 20px;
+      background: #12001f;
       box-shadow: 0 0 35px #a855f7;
     }
 
-    .logo {
-      font-size: 46px;
-      font-weight: 900;
-      text-transform: uppercase;
-      text-shadow: 0 0 10px #ff2bd6, 0 0 25px #a855f7;
+    .site-logo {
+      max-width: 420px;
+      width: 90%;
+      border-radius: 20px;
+      filter: drop-shadow(0 0 25px #ec4899);
     }
 
-    .logo span { color: #ffd700; }
+    .hero {
+      padding: 35px 20px;
+    }
 
-    .subtitle {
+    .hero h1 {
+      font-size: 42px;
+      margin: 10px 0;
+      text-shadow: 0 0 18px #ec4899;
+    }
+
+    .hero p {
       color: #d8b4fe;
-      margin-top: 8px;
+      font-size: 18px;
+      max-width: 700px;
+      margin: 10px auto;
+    }
+
+    .tiktok-btn {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 15px 25px;
+      background: linear-gradient(90deg, #9333ea, #ec4899);
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 14px;
+      box-shadow: 0 0 18px rgba(236,72,153,0.5);
+    }
+
+    .website-section {
+      width: 94%;
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 22px;
+      background: rgba(18, 0, 31, 0.92);
+      border: 2px solid #7e22ce;
+      border-radius: 25px;
+      box-shadow: 0 0 25px rgba(168,85,247,0.45);
+    }
+
+    .section-title {
+      color: #ff4fd8;
+      font-size: 28px;
+      margin-bottom: 10px;
+      text-shadow: 0 0 12px #9333ea;
     }
 
     .main {
@@ -291,7 +333,7 @@
     footer {
       color: #a855f7;
       font-weight: bold;
-      margin: 20px;
+      margin: 25px;
     }
 
     #celebration {
@@ -317,7 +359,7 @@
       .top-row { grid-template-columns: 1fr; }
       .dashboard { grid-template-columns: 1fr 1fr; }
       input, select, button { width: 100%; }
-      .logo { font-size: 32px; }
+      .hero h1 { font-size: 30px; }
       .main { padding: 15px; }
     }
   </style>
@@ -326,11 +368,30 @@
 <body>
 
 <header>
-  <div class="logo">👻 Gengar Girl <span>Packs</span> ✨</div>
-  <div class="subtitle">Live Pokémon Pack Tracker</div>
+  <img class="site-logo" src="https://i.ibb.co/fYpyqNWp/Untitled-03-June-2026-at-22-31-09.png" alt="Gengar Girl Packs Logo">
 </header>
 
+<section class="hero">
+  <h1>Welcome to Gengar Girl Packs</h1>
+  <p>Welcome to Gengar Girl Packs, where we open Pokémon packs live and hunt for amazing pulls!</p>
+  <a class="tiktok-btn" href="https://www.tiktok.com/@GengarGirl2" target="_blank">
+    Follow me on TikTok: @GengarGirl2
+  </a>
+</section>
+
+<section class="website-section">
+  <div class="section-title">🎥 Stream Info</div>
+  <p>Check TikTok for live times, pack openings, updates and new pulls.</p>
+</section>
+
+<section class="website-section">
+  <div class="section-title">⭐ Live Hit Wall & Recent Pulls</div>
+  <p>Your best pulls and recent found cards will appear below once cards are added and marked as found.</p>
+</section>
+
 <div class="main" id="main">
+
+  <div class="section-title">📊 Live Card Tracker</div>
 
   <div class="top-row">
     <div class="panel">
@@ -449,7 +510,7 @@
 </div>
 
 <footer>
-  Gengar Girl Packs Tracker • Happy Pulls! 👻 ✨
+  Gengar Girl Packs © 2026 • Happy Pulls! 👻 ✨
 </footer>
 
 <div id="celebration">🎆✨ FOUND! ✨🎆</div>
@@ -457,10 +518,10 @@
 <script>
 let adminMode = false;
 let streamMode = false;
-let cards = JSON.parse(localStorage.getItem("gengarCardsV5")) || [];
+let cards = JSON.parse(localStorage.getItem("gengarCardsWebsiteV1")) || [];
 
 function saveCards() {
-  localStorage.setItem("gengarCardsV5", JSON.stringify(cards));
+  localStorage.setItem("gengarCardsWebsiteV1", JSON.stringify(cards));
 }
 
 function setPublicMode() {
@@ -821,9 +882,9 @@ renderCards();
 
 </body>
 </html>
-
-
-
+ 
+      
+      
 
    
  
