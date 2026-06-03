@@ -2,254 +2,381 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Gengar Girl Packs Tracker</title>
+  <title>Gengar Girl Packs Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: radial-gradient(circle, #3b005c, #08000d);
-  color: white;
-  text-align: center;
-}
+  <style>
+    * { box-sizing: border-box; }
 
-header {
-  padding: 25px;
-  background: #16001f;
-  box-shadow: 0 0 25px #a855f7;
-}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #030006;
+      color: white;
+      text-align: center;
+    }
 
-.logo {
-  font-size: 42px;
-  font-weight: bold;
-  text-shadow: 0 0 10px #d946ef, 0 0 25px #9333ea;
-}
+    header {
+      min-height: 310px;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.05), #050008 95%),
+        url("gengar-banner.jpg") center/cover no-repeat;
+      display: flex;
+      align-items: end;
+      justify-content: center;
+      padding-bottom: 20px;
+    }
 
-.logo span {
-  color: #ffd700;
-}
+    .logo {
+      font-size: 58px;
+      font-weight: 900;
+      color: #fff;
+      text-transform: uppercase;
+      text-shadow:
+        0 0 8px #ff2bd6,
+        0 0 18px #ff2bd6,
+        4px 4px 0 #6b21a8;
+      letter-spacing: 2px;
+    }
 
-button {
-  padding: 10px 16px;
-  border: none;
-  border-radius: 12px;
-  background: #9333ea;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  margin: 5px;
-}
+    .logo span {
+      color: #a855f7;
+      display: block;
+      font-size: 54px;
+    }
 
-button:hover {
-  background: #a855f7;
-}
+    .main {
+      width: 94%;
+      max-width: 1200px;
+      margin: -10px auto 30px;
+      background: rgba(22, 0, 35, 0.92);
+      border: 1px solid #6b21a8;
+      border-radius: 18px;
+      box-shadow: 0 0 25px #4c1d95;
+      padding: 18px;
+    }
 
-input, select {
-  padding: 11px;
-  border-radius: 10px;
-  border: none;
-  margin: 6px;
-  width: 230px;
-}
+    .top-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 260px;
+      gap: 15px;
+      align-items: center;
+    }
 
-.progress-box, .admin-box {
-  background: #2a003f;
-  margin: 15px auto;
-  padding: 15px;
-  border-radius: 15px;
-  width: 90%;
-  max-width: 700px;
-  box-shadow: 0 0 15px #7e22ce;
-}
+    button {
+      padding: 14px 18px;
+      border: 1px solid #7e22ce;
+      border-radius: 10px;
+      background: #12001f;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 5px;
+      box-shadow: 0 0 12px rgba(168,85,247,0.4);
+    }
 
-.progress {
-  background: #111;
-  border-radius: 20px;
-  overflow: hidden;
-  height: 18px;
-}
+    button:hover {
+      background: #9333ea;
+    }
 
-.bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #ffd700, #ff4dff);
-}
+    .primary {
+      background: linear-gradient(90deg, #9333ea, #ec4899);
+    }
 
-.cards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 15px;
-  padding: 20px;
-}
+    input, select {
+      padding: 14px;
+      border-radius: 9px;
+      border: 1px solid #4c1d95;
+      background: #0b0015;
+      color: white;
+      margin: 6px;
+      min-width: 210px;
+    }
 
-.card {
-  background: #250035;
-  width: 190px;
-  padding: 12px;
-  border-radius: 15px;
-  box-shadow: 0 0 12px #7e22ce;
-}
+    input::placeholder {
+      color: #aaa;
+    }
 
-.card img {
-  width: 100%;
-  border-radius: 10px;
-  background: white;
-}
+    .mode-text {
+      font-size: 18px;
+      font-weight: bold;
+    }
 
-.found {
-  opacity: 0.6;
-  border: 2px solid #ffd700;
-}
+    .pink {
+      color: #ff4fd8;
+    }
 
-.badge {
-  display: inline-block;
-  padding: 5px 8px;
-  margin: 3px;
-  border-radius: 10px;
-  background: #4c006e;
-  font-size: 12px;
-}
+    .progress-box {
+      border: 1px solid #6b21a8;
+      border-radius: 12px;
+      padding: 12px;
+      text-align: left;
+      background: rgba(0,0,0,0.25);
+    }
 
-.found-label {
-  color: #ffd700;
-  font-weight: bold;
-}
+    .progress {
+      height: 12px;
+      background: #16001f;
+      border: 1px solid #6b21a8;
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
 
-.admin-only {
-  display: none;
-}
+    .bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #ff4fd8, #a855f7);
+    }
 
-#celebration {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  font-size: 42px;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-}
-</style>
+    .admin-box, .filters {
+      margin-top: 16px;
+      padding: 16px;
+      border: 1px solid #4c1d95;
+      border-radius: 12px;
+      background: rgba(18,0,31,0.75);
+    }
+
+    .admin-title {
+      color: #ff4fd8;
+      font-weight: bold;
+      text-align: left;
+      margin-bottom: 10px;
+    }
+
+    .admin-only {
+      display: none;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cards {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      min-height: 360px;
+      border: 1px dashed #6b21a8;
+      border-radius: 14px;
+      padding: 22px;
+    }
+
+    .empty {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 330px;
+      color: #ddd;
+    }
+
+    .empty-icon {
+      font-size: 70px;
+      margin-bottom: 10px;
+      filter: drop-shadow(0 0 12px #a855f7);
+    }
+
+    .card {
+      width: 210px;
+      background: #12001f;
+      border: 1px solid #4c1d95;
+      border-radius: 14px;
+      padding: 12px;
+      box-shadow: 0 0 15px rgba(168,85,247,0.25);
+    }
+
+    .card img {
+      width: 100%;
+      height: 260px;
+      object-fit: contain;
+      background: white;
+      border-radius: 10px;
+    }
+
+    .found {
+      opacity: 0.6;
+      border-color: #ffd700;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 9px;
+      margin: 3px;
+      border-radius: 8px;
+      font-size: 12px;
+      background: #6b21a8;
+    }
+
+    .rarity {
+      background: #db2777;
+    }
+
+    .found-label {
+      color: #ffd700;
+      font-weight: bold;
+    }
+
+    footer {
+      color: #a855f7;
+      font-weight: bold;
+      margin: 20px;
+    }
+
+    #celebration {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.45);
+      z-index: 999;
+      font-size: 55px;
+      pointer-events: none;
+    }
+
+    @media(max-width: 800px) {
+      .top-row {
+        grid-template-columns: 1fr;
+      }
+
+      .logo {
+        font-size: 38px;
+      }
+
+      .logo span {
+        font-size: 36px;
+      }
+
+      header {
+        min-height: 220px;
+      }
+
+      input, select, button {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
-  <div class="logo">👻 Gengar Girl <span>Packs</span> ✨</div>
-  <p>Live Pokémon Pack Tracker</p>
+  <div class="logo">
+    Gengar Girl
+    <span>Packs</span>
+  </div>
 </header>
 
-<div>
-  <button onclick="setPublicMode()">Public View</button>
-  <button onclick="showAdminLogin()">Admin Login</button>
+<div class="main">
 
-  <div id="adminLogin" style="display:none;">
-    <input type="password" id="adminPassword" placeholder="Admin password">
-    <button onclick="loginAdmin()">Unlock</button>
+  <div class="top-row">
+    <div>
+      <button class="primary" onclick="setPublicMode()">👁 Public View</button>
+      <button onclick="showAdminLogin()">🔒 Admin Login</button>
+
+      <div id="adminLogin" style="display:none;">
+        <input type="password" id="adminPassword" placeholder="Admin password">
+        <button onclick="loginAdmin()">Unlock</button>
+      </div>
+    </div>
+
+    <div class="mode-text">
+      Current mode: <span class="pink" id="modeName">Public View</span>
+    </div>
+
+    <div class="progress-box">
+      <strong>Found</strong>
+      <div id="progressText">0 of 0 Cards</div>
+      <strong>Progress</strong>
+      <div id="percentText">0%</div>
+      <div class="progress">
+        <div class="bar" id="progressBar"></div>
+      </div>
+    </div>
   </div>
 
-  <p id="modeText">Current mode: Public View</p>
-</div>
+  <div class="admin-box admin-only">
+    <div class="admin-title">✦ Add New Card (Admin Only)</div>
 
-<div class="progress-box">
-  <div id="progressText">Found 0 of 0 cards</div>
-  <div class="progress">
-    <div class="bar" id="progressBar"></div>
+    <input id="newName" placeholder="Card name">
+
+    <select id="newSection">
+      <option>English</option>
+      <option>Japanese</option>
+      <option>Chinese</option>
+      <option>Mix</option>
+    </select>
+
+    <select id="newRarity">
+      <option>Common</option>
+      <option>Rare</option>
+      <option>Ultra Rare</option>
+      <option>Secret Rare</option>
+    </select>
+
+    <input type="file" id="cardImage" accept="image/*">
+
+    <button class="primary" onclick="addCard()">＋ Add Card</button>
   </div>
+
+  <div class="filters">
+    <input id="searchBox" placeholder="🔍 Search cards..." onkeyup="renderCards()">
+
+    <select id="sectionFilter" onchange="renderCards()">
+      <option>All Sections</option>
+      <option>English</option>
+      <option>Japanese</option>
+      <option>Chinese</option>
+      <option>Mix</option>
+    </select>
+
+    <select id="rarityFilter" onchange="renderCards()">
+      <option>All Rarities</option>
+      <option>Common</option>
+      <option>Rare</option>
+      <option>Ultra Rare</option>
+      <option>Secret Rare</option>
+    </select>
+
+    <button onclick="clearFilters()">↻ Clear Filters</button>
+  </div>
+
+  <div class="cards" id="cardList"></div>
+
 </div>
 
-<div class="admin-box admin-only">
-  <h2>Add New Card</h2>
-
-  <input id="newName" placeholder="Card name">
-  <input id="newImage" placeholder="Image link">
-
-  <select id="newSection">
-    <option>English</option>
-    <option>Japanese</option>
-    <option>Chinese</option>
-    <option>Mix</option>
-  </select>
-
-  <select id="newRarity">
-    <option>Common</option>
-    <option>Rare</option>
-    <option>Ultra Rare</option>
-    <option>Secret Rare</option>
-  </select>
-
-  <br>
-  <button onclick="addCard()">Add Card</button>
-</div>
-
-<div>
-  <input id="searchBox" placeholder="Search card..." onkeyup="renderCards()">
-
-  <select id="sectionFilter" onchange="renderCards()">
-    <option>All Sections</option>
-    <option>English</option>
-    <option>Japanese</option>
-    <option>Chinese</option>
-    <option>Mix</option>
-  </select>
-
-  <select id="rarityFilter" onchange="renderCards()">
-    <option>All Rarities</option>
-    <option>Common</option>
-    <option>Rare</option>
-    <option>Ultra Rare</option>
-    <option>Secret Rare</option>
-  </select>
-</div>
-
-<div class="cards" id="cardList"></div>
+<footer>
+  Gengar Girl Packs Tracker • Happy Pulls! 👻 ✨
+</footer>
 
 <div id="celebration">🎆✨ FOUND! ✨🎆</div>
 
 <script>
 let adminMode = false;
-
-let cards = JSON.parse(localStorage.getItem("gengarCards")) || [
-  {
-    name: "Gengar",
-    section: "English",
-    rarity: "Ultra Rare",
-    image: "https://images.pokemontcg.io/swsh8/157_hires.png",
-    found: false
-  },
-  {
-    name: "Pikachu",
-    section: "Japanese",
-    rarity: "Common",
-    image: "https://images.pokemontcg.io/swsh4/43_hires.png",
-    found: false
-  },
-  {
-    name: "Charizard",
-    section: "Chinese",
-    rarity: "Secret Rare",
-    image: "https://images.pokemontcg.io/swsh35/20_hires.png",
-    found: false
-  },
-  {
-    name: "Mixed Mystery Card",
-    section: "Mix",
-    rarity: "Rare",
-    image: "https://images.pokemontcg.io/swsh4/130_hires.png",
-    found: false
-  }
-];
+let cards = JSON.parse(localStorage.getItem("gengarCardsV3")) || [];
 
 function saveCards() {
-  localStorage.setItem("gengarCards", JSON.stringify(cards));
+  localStorage.setItem("gengarCardsV3", JSON.stringify(cards));
 }
 
 function setPublicMode() {
   adminMode = false;
-  document.getElementById("modeText").innerText = "Current mode: Public View";
+  document.getElementById("modeName").innerText = "Public View";
   document.getElementById("adminLogin").style.display = "none";
-  document.querySelectorAll(".admin-only").forEach(el => el.style.display = "none");
+
+  document.querySelectorAll(".admin-only").forEach(function(el) {
+    el.style.display = "none";
+  });
+
   renderCards();
 }
 
@@ -262,9 +389,13 @@ function loginAdmin() {
 
   if (password === "gengar123") {
     adminMode = true;
-    document.getElementById("modeText").innerText = "Current mode: Admin View";
+    document.getElementById("modeName").innerText = "Admin View";
     document.getElementById("adminLogin").style.display = "none";
-    document.querySelectorAll(".admin-only").forEach(el => el.style.display = "block");
+
+    document.querySelectorAll(".admin-only").forEach(function(el) {
+      el.style.display = "block";
+    });
+
     renderCards();
   } else {
     alert("Wrong password");
@@ -272,30 +403,36 @@ function loginAdmin() {
 }
 
 function addCard() {
-  const name = document.getElementById("newName").value;
-  const image = document.getElementById("newImage").value;
+  const name = document.getElementById("newName").value.trim();
   const section = document.getElementById("newSection").value;
   const rarity = document.getElementById("newRarity").value;
+  const imageFile = document.getElementById("cardImage").files[0];
 
-  if (!name || !image) {
-    alert("Please add a card name and image link");
+  if (!name || !imageFile) {
+    alert("Please add a card name and choose an image");
     return;
   }
 
-  cards.push({
-    name: name,
-    image: image,
-    section: section,
-    rarity: rarity,
-    found: false
-  });
+  const reader = new FileReader();
 
-  saveCards();
+  reader.onload = function(event) {
+    cards.push({
+      name: name,
+      section: section,
+      rarity: rarity,
+      image: event.target.result,
+      found: false
+    });
 
-  document.getElementById("newName").value = "";
-  document.getElementById("newImage").value = "";
+    saveCards();
 
-  renderCards();
+    document.getElementById("newName").value = "";
+    document.getElementById("cardImage").value = "";
+
+    renderCards();
+  };
+
+  reader.readAsDataURL(imageFile);
 }
 
 function toggleFound(index) {
@@ -317,21 +454,29 @@ function deleteCard(index) {
   }
 }
 
+function clearFilters() {
+  document.getElementById("searchBox").value = "";
+  document.getElementById("sectionFilter").value = "All Sections";
+  document.getElementById("rarityFilter").value = "All Rarities";
+  renderCards();
+}
+
 function celebrate() {
   const celebration = document.getElementById("celebration");
   celebration.style.display = "flex";
 
-  setTimeout(() => {
+  setTimeout(function() {
     celebration.style.display = "none";
-  }, 1000);
+  }, 1200);
 }
 
 function updateProgress() {
   const found = cards.filter(card => card.found).length;
   const total = cards.length;
-  const percent = total === 0 ? 0 : (found / total) * 100;
+  const percent = total === 0 ? 0 : Math.round((found / total) * 100);
 
-  document.getElementById("progressText").innerText = `Found ${found} of ${total} cards`;
+  document.getElementById("progressText").innerText = found + " of " + total + " Cards";
+  document.getElementById("percentText").innerText = percent + "%";
   document.getElementById("progressBar").style.width = percent + "%";
 }
 
@@ -343,10 +488,41 @@ function renderCards() {
   const list = document.getElementById("cardList");
   list.innerHTML = "";
 
-  cards.forEach((card, index) => {
-    if (!card.name.toLowerCase().includes(search)) return;
-    if (sectionFilter !== "All Sections" && card.section !== sectionFilter) return;
-    if (rarityFilter !== "All Rarities" && card.rarity !== rarityFilter) return;
+  const filteredCards = cards.filter(function(card) {
+    if (!card.name.toLowerCase().includes(search)) return false;
+    if (sectionFilter !== "All Sections" && card.section !== sectionFilter) return false;
+    if (rarityFilter !== "All Rarities" && card.rarity !== rarityFilter) return false;
+    return true;
+  });
+
+  if (cards.length === 0) {
+    list.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">👻</div>
+        <h1>No cards added yet!</h1>
+        <p>Login as admin to add your first card.</p>
+        <p>Once added, they will appear here.</p>
+        <button class="primary" onclick="showAdminLogin()">🔒 Admin Login</button>
+      </div>
+    `;
+    updateProgress();
+    return;
+  }
+
+  if (filteredCards.length === 0) {
+    list.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">🔍</div>
+        <h1>No cards found</h1>
+        <p>Try clearing your filters.</p>
+      </div>
+    `;
+    updateProgress();
+    return;
+  }
+
+  filteredCards.forEach(function(card) {
+    const realIndex = cards.indexOf(card);
 
     const div = document.createElement("div");
     div.className = "card" + (card.found ? " found" : "");
@@ -354,17 +530,19 @@ function renderCards() {
     div.innerHTML = `
       <img src="${card.image}" alt="${card.name}">
       <h3>${card.name}</h3>
+
       <span class="badge">${card.section}</span>
-      <span class="badge">${card.rarity}</span>
+      <span class="badge rarity">${card.rarity}</span>
+
       <p class="found-label">${card.found ? "FOUND" : "Not found yet"}</p>
 
       ${
         adminMode
         ? `
-          <button onclick="toggleFound(${index})">
+          <button class="primary" onclick="toggleFound(${realIndex})">
             ${card.found ? "Mark Not Found" : "Mark Found"}
           </button>
-          <button onclick="deleteCard(${index})">Delete</button>
+          <button onclick="deleteCard(${realIndex})">Delete</button>
         `
         : ""
       }
@@ -384,23 +562,7 @@ renderCards();
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  
 
 
 
