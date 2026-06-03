@@ -1,161 +1,152 @@
- <!DOCTYPE html>
+
+<!DOCTYPE html>
 <html>
 <head>
-  <title>Gengar Girl Packs Tracker</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: radial-gradient(circle, #3b005c, #08000d);
-      color: white;
-      text-align: center;
-    }
+<title>Gengar Girl Packs Tracker</title>
 
-    header {
-      padding: 25px;
-      background: #16001f;
-      box-shadow: 0 0 25px #a855f7;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: radial-gradient(circle, #3b005c, #08000d);
+  color: white;
+  text-align: center;
+}
 
-    .logo {
-      font-size: 42px;
-      font-weight: bold;
-      color: #fff;
-      text-shadow: 0 0 10px #d946ef, 0 0 25px #9333ea;
-    }
+header {
+  padding: 25px;
+  background: #16001f;
+  box-shadow: 0 0 25px #a855f7;
+}
 
-    .logo span {
-      color: #ffd700;
-    }
+.logo {
+  font-size: 42px;
+  font-weight: bold;
+  text-shadow: 0 0 10px #d946ef, 0 0 25px #9333ea;
+}
 
-    .tagline {
-      color: #d8b4fe;
-      margin-top: 5px;
-    }
+.logo span {
+  color: #ffd700;
+}
 
-    .mode-box {
-      margin: 20px;
-    }
+button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 12px;
+  background: #9333ea;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 5px;
+}
 
-    button {
-      padding: 10px 16px;
-      border: none;
-      border-radius: 12px;
-      background: #9333ea;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      margin: 5px;
-      box-shadow: 0 0 10px #a855f7;
-    }
+button:hover {
+  background: #a855f7;
+}
 
-    button:hover {
-      background: #a855f7;
-    }
+input, select {
+  padding: 11px;
+  border-radius: 10px;
+  border: none;
+  margin: 6px;
+  width: 230px;
+}
 
-    input {
-      padding: 12px;
-      border-radius: 10px;
-      border: none;
-      margin: 8px;
-      width: 250px;
-      max-width: 80%;
-    }
+.progress-box, .admin-box {
+  background: #2a003f;
+  margin: 15px auto;
+  padding: 15px;
+  border-radius: 15px;
+  width: 90%;
+  max-width: 700px;
+  box-shadow: 0 0 15px #7e22ce;
+}
 
-    .progress-box {
-      background: #2a003f;
-      margin: 15px auto;
-      padding: 15px;
-      border-radius: 15px;
-      width: 85%;
-      max-width: 500px;
-      box-shadow: 0 0 15px #7e22ce;
-    }
+.progress {
+  background: #111;
+  border-radius: 20px;
+  overflow: hidden;
+  height: 18px;
+}
 
-    .progress {
-      background: #111;
-      border-radius: 20px;
-      overflow: hidden;
-      height: 18px;
-      margin-top: 10px;
-    }
+.bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #ffd700, #ff4dff);
+}
 
-    .bar {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #ffd700, #ff4dff);
-    }
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  padding: 20px;
+}
 
-    .cards {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 15px;
-      padding: 20px;
-    }
+.card {
+  background: #250035;
+  width: 190px;
+  padding: 12px;
+  border-radius: 15px;
+  box-shadow: 0 0 12px #7e22ce;
+}
 
-    .card {
-      background: #250035;
-      width: 180px;
-      padding: 12px;
-      border-radius: 15px;
-      box-shadow: 0 0 12px #7e22ce;
-    }
+.card img {
+  width: 100%;
+  border-radius: 10px;
+  background: white;
+}
 
-    .card img {
-      width: 100%;
-      border-radius: 10px;
-      background: white;
-    }
+.found {
+  opacity: 0.6;
+  border: 2px solid #ffd700;
+}
 
-    .found {
-      opacity: 0.6;
-      border: 2px solid #ffd700;
-    }
+.badge {
+  display: inline-block;
+  padding: 5px 8px;
+  margin: 3px;
+  border-radius: 10px;
+  background: #4c006e;
+  font-size: 12px;
+}
 
-    .found-label {
-      color: #ffd700;
-      font-weight: bold;
-    }
+.found-label {
+  color: #ffd700;
+  font-weight: bold;
+}
 
-    .admin-only {
-      display: none;
-    }
+.admin-only {
+  display: none;
+}
 
-    #celebration {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      font-size: 40px;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      animation: pop 1s ease;
-      z-index: 999;
-    }
-
-    @keyframes pop {
-      0% { transform: scale(0.5); opacity: 0; }
-      50% { transform: scale(1.3); opacity: 1; }
-      100% { transform: scale(1); opacity: 0; }
-    }
-  </style>
+#celebration {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  font-size: 42px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+</style>
 </head>
 
 <body>
 
 <header>
   <div class="logo">👻 Gengar Girl <span>Packs</span> ✨</div>
-  <div class="tagline">Live Pokémon Pack Tracker</div>
+  <p>Live Pokémon Pack Tracker</p>
 </header>
 
-<div class="mode-box">
+<div>
   <button onclick="setPublicMode()">Public View</button>
   <button onclick="showAdminLogin()">Admin Login</button>
 
   <div id="adminLogin" style="display:none;">
-    <input type="password" id="adminPassword" placeholder="Enter admin password">
-    <button onclick="loginAdmin()">Unlock Admin</button>
+    <input type="password" id="adminPassword" placeholder="Admin password">
+    <button onclick="loginAdmin()">Unlock</button>
   </div>
 
   <p id="modeText">Current mode: Public View</p>
@@ -168,129 +159,228 @@
   </div>
 </div>
 
-<input type="text" id="searchBox" placeholder="Search Pokémon card..." onkeyup="renderCards()">
+<div class="admin-box admin-only">
+  <h2>Add New Card</h2>
+
+  <input id="newName" placeholder="Card name">
+  <input id="newImage" placeholder="Image link">
+
+  <select id="newSection">
+    <option>English</option>
+    <option>Japanese</option>
+    <option>Chinese</option>
+    <option>Mix</option>
+  </select>
+
+  <select id="newRarity">
+    <option>Common</option>
+    <option>Rare</option>
+    <option>Ultra Rare</option>
+    <option>Secret Rare</option>
+  </select>
+
+  <br>
+  <button onclick="addCard()">Add Card</button>
+</div>
+
+<div>
+  <input id="searchBox" placeholder="Search card..." onkeyup="renderCards()">
+
+  <select id="sectionFilter" onchange="renderCards()">
+    <option>All Sections</option>
+    <option>English</option>
+    <option>Japanese</option>
+    <option>Chinese</option>
+    <option>Mix</option>
+  </select>
+
+  <select id="rarityFilter" onchange="renderCards()">
+    <option>All Rarities</option>
+    <option>Common</option>
+    <option>Rare</option>
+    <option>Ultra Rare</option>
+    <option>Secret Rare</option>
+  </select>
+</div>
 
 <div class="cards" id="cardList"></div>
 
 <div id="celebration">🎆✨ FOUND! ✨🎆</div>
 
 <script>
-  let adminMode = false;
+let adminMode = false;
 
-  let cards = JSON.parse(localStorage.getItem("gengarCards")) || [
-    {
-      name: "Gengar",
-      image: "https://images.pokemontcg.io/swsh8/157_hires.png",
-      found: false
-    },
-    {
-      name: "Pikachu",
-      image: "https://images.pokemontcg.io/swsh4/43_hires.png",
-      found: false
-    },
-    {
-      name: "Charizard",
-      image: "https://images.pokemontcg.io/swsh35/20_hires.png",
-      found: false
-    },
-    {
-      name: "Eevee",
-      image: "https://images.pokemontcg.io/swsh4/130_hires.png",
-      found: false
-    }
-  ];
-
-  function saveCards() {
-    localStorage.setItem("gengarCards", JSON.stringify(cards));
+let cards = JSON.parse(localStorage.getItem("gengarCards")) || [
+  {
+    name: "Gengar",
+    section: "English",
+    rarity: "Ultra Rare",
+    image: "https://images.pokemontcg.io/swsh8/157_hires.png",
+    found: false
+  },
+  {
+    name: "Pikachu",
+    section: "Japanese",
+    rarity: "Common",
+    image: "https://images.pokemontcg.io/swsh4/43_hires.png",
+    found: false
+  },
+  {
+    name: "Charizard",
+    section: "Chinese",
+    rarity: "Secret Rare",
+    image: "https://images.pokemontcg.io/swsh35/20_hires.png",
+    found: false
+  },
+  {
+    name: "Mixed Mystery Card",
+    section: "Mix",
+    rarity: "Rare",
+    image: "https://images.pokemontcg.io/swsh4/130_hires.png",
+    found: false
   }
+];
 
-  function setPublicMode() {
-    adminMode = false;
-    document.getElementById("modeText").innerText = "Current mode: Public View";
+function saveCards() {
+  localStorage.setItem("gengarCards", JSON.stringify(cards));
+}
+
+function setPublicMode() {
+  adminMode = false;
+  document.getElementById("modeText").innerText = "Current mode: Public View";
+  document.getElementById("adminLogin").style.display = "none";
+  document.querySelectorAll(".admin-only").forEach(el => el.style.display = "none");
+  renderCards();
+}
+
+function showAdminLogin() {
+  document.getElementById("adminLogin").style.display = "block";
+}
+
+function loginAdmin() {
+  const password = document.getElementById("adminPassword").value;
+
+  if (password === "gengar123") {
+    adminMode = true;
+    document.getElementById("modeText").innerText = "Current mode: Admin View";
     document.getElementById("adminLogin").style.display = "none";
+    document.querySelectorAll(".admin-only").forEach(el => el.style.display = "block");
     renderCards();
+  } else {
+    alert("Wrong password");
+  }
+}
+
+function addCard() {
+  const name = document.getElementById("newName").value;
+  const image = document.getElementById("newImage").value;
+  const section = document.getElementById("newSection").value;
+  const rarity = document.getElementById("newRarity").value;
+
+  if (!name || !image) {
+    alert("Please add a card name and image link");
+    return;
   }
 
-  function showAdminLogin() {
-    document.getElementById("adminLogin").style.display = "block";
-  }
+  cards.push({
+    name: name,
+    image: image,
+    section: section,
+    rarity: rarity,
+    found: false
+  });
 
-  function loginAdmin() {
-    const password = document.getElementById("adminPassword").value;
+  saveCards();
 
-    if (password === "gengar123") {
-      adminMode = true;
-      document.getElementById("modeText").innerText = "Current mode: Admin View";
-      document.getElementById("adminLogin").style.display = "none";
-      renderCards();
-    } else {
-      alert("Wrong password");
-    }
-  }
+  document.getElementById("newName").value = "";
+  document.getElementById("newImage").value = "";
 
-  function toggleFound(index) {
-    cards[index].found = !cards[index].found;
-    saveCards();
+  renderCards();
+}
 
-    if (cards[index].found) {
-      celebrate();
-    }
+function toggleFound(index) {
+  cards[index].found = !cards[index].found;
+  saveCards();
 
-    renderCards();
-  }
-
-  function celebrate() {
-    const celebration = document.getElementById("celebration");
-    celebration.style.display = "flex";
-
-    setTimeout(() => {
-      celebration.style.display = "none";
-    }, 1000);
-  }
-
-  function updateProgress() {
-    const found = cards.filter(card => card.found).length;
-    const total = cards.length;
-    const percent = total === 0 ? 0 : (found / total) * 100;
-
-    document.getElementById("progressText").innerText = `Found ${found} of ${total} cards`;
-    document.getElementById("progressBar").style.width = percent + "%";
-  }
-
-  function renderCards() {
-    const search = document.getElementById("searchBox").value.toLowerCase();
-    const list = document.getElementById("cardList");
-    list.innerHTML = "";
-
-    cards.forEach((card, index) => {
-      if (!card.name.toLowerCase().includes(search)) return;
-
-      const div = document.createElement("div");
-      div.className = "card" + (card.found ? " found" : "");
-
-      div.innerHTML = `
-        <img src="${card.image}" alt="${card.name}">
-        <h3>${card.name}</h3>
-        <p class="found-label">${card.found ? "FOUND" : "Not found yet"}</p>
-        ${
-          adminMode
-          ? `<button onclick="toggleFound(${index})">${card.found ? "Mark Not Found" : "Mark Found"}</button>`
-          : ""
-        }
-      `;
-
-      list.appendChild(div);
-    });
-
-    updateProgress();
+  if (cards[index].found) {
+    celebrate();
   }
 
   renderCards();
+}
+
+function deleteCard(index) {
+  if (confirm("Delete this card?")) {
+    cards.splice(index, 1);
+    saveCards();
+    renderCards();
+  }
+}
+
+function celebrate() {
+  const celebration = document.getElementById("celebration");
+  celebration.style.display = "flex";
+
+  setTimeout(() => {
+    celebration.style.display = "none";
+  }, 1000);
+}
+
+function updateProgress() {
+  const found = cards.filter(card => card.found).length;
+  const total = cards.length;
+  const percent = total === 0 ? 0 : (found / total) * 100;
+
+  document.getElementById("progressText").innerText = `Found ${found} of ${total} cards`;
+  document.getElementById("progressBar").style.width = percent + "%";
+}
+
+function renderCards() {
+  const search = document.getElementById("searchBox").value.toLowerCase();
+  const sectionFilter = document.getElementById("sectionFilter").value;
+  const rarityFilter = document.getElementById("rarityFilter").value;
+
+  const list = document.getElementById("cardList");
+  list.innerHTML = "";
+
+  cards.forEach((card, index) => {
+    if (!card.name.toLowerCase().includes(search)) return;
+    if (sectionFilter !== "All Sections" && card.section !== sectionFilter) return;
+    if (rarityFilter !== "All Rarities" && card.rarity !== rarityFilter) return;
+
+    const div = document.createElement("div");
+    div.className = "card" + (card.found ? " found" : "");
+
+    div.innerHTML = `
+      <img src="${card.image}" alt="${card.name}">
+      <h3>${card.name}</h3>
+      <span class="badge">${card.section}</span>
+      <span class="badge">${card.rarity}</span>
+      <p class="found-label">${card.found ? "FOUND" : "Not found yet"}</p>
+
+      ${
+        adminMode
+        ? `
+          <button onclick="toggleFound(${index})">
+            ${card.found ? "Mark Not Found" : "Mark Found"}
+          </button>
+          <button onclick="deleteCard(${index})">Delete</button>
+        `
+        : ""
+      }
+    `;
+
+    list.appendChild(div);
+  });
+
+  updateProgress();
+}
+
+renderCards();
 </script>
 
 </body>
 </html>
-
 
 
 
