@@ -1,6 +1,4 @@
-
-
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <title>Gengar Girl Packs</title>
@@ -18,74 +16,48 @@
     }
 
     header {
-      padding: 30px 20px;
+      padding: 20px;
       background: #12001f;
       box-shadow: 0 0 35px #a855f7;
     }
 
     .site-logo {
-      max-width: 420px;
-      width: 90%;
+      width: 100%;
+      max-width: 1400px;
       border-radius: 20px;
-      filter: drop-shadow(0 0 25px #ec4899);
+      box-shadow: 0 0 20px #9333ea, 0 0 40px #ec4899;
     }
 
-    .hero {
-      padding: 35px 20px;
+    .hero, .website-section, .main {
+      width: 94%;
+      max-width: 1250px;
+      margin: 25px auto;
+      padding: 25px;
+      background: rgba(18, 0, 31, 0.96);
+      border: 2px solid #7e22ce;
+      border-radius: 25px;
+      box-shadow: 0 0 25px rgba(168,85,247,0.5);
     }
 
-    .hero h1 {
-      font-size: 42px;
-      margin: 10px 0;
-      text-shadow: 0 0 18px #ec4899;
+    h1, .section-title {
+      color: #ff4fd8;
+      text-shadow: 0 0 12px #9333ea;
     }
 
-    .hero p {
-      color: #d8b4fe;
-      font-size: 18px;
-      max-width: 700px;
-      margin: 10px auto;
+    p { color: #d8b4fe; }
+
+    .tiktok-btn, .primary {
+      background: linear-gradient(90deg, #9333ea, #ec4899);
     }
 
     .tiktok-btn {
       display: inline-block;
-      margin-top: 15px;
       padding: 15px 25px;
-      background: linear-gradient(90deg, #9333ea, #ec4899);
       color: white;
       text-decoration: none;
       font-weight: bold;
       border-radius: 14px;
       box-shadow: 0 0 18px rgba(236,72,153,0.5);
-    }
-
-    .website-section {
-      width: 94%;
-      max-width: 1200px;
-      margin: 20px auto;
-      padding: 22px;
-      background: rgba(18, 0, 31, 0.92);
-      border: 2px solid #7e22ce;
-      border-radius: 25px;
-      box-shadow: 0 0 25px rgba(168,85,247,0.45);
-    }
-
-    .section-title {
-      color: #ff4fd8;
-      font-size: 28px;
-      margin-bottom: 10px;
-      text-shadow: 0 0 12px #9333ea;
-    }
-
-    .main {
-      width: 94%;
-      max-width: 1250px;
-      margin: 25px auto;
-      background: rgba(18, 0, 31, 0.96);
-      border: 2px solid #7e22ce;
-      border-radius: 25px;
-      box-shadow: 0 0 25px rgba(168,85,247,0.5);
-      padding: 25px;
     }
 
     .top-row {
@@ -116,10 +88,6 @@
     }
 
     button:hover { background: #9333ea; }
-
-    .primary {
-      background: linear-gradient(90deg, #9333ea, #ec4899);
-    }
 
     .gold {
       background: linear-gradient(90deg, #b45309, #ffd700);
@@ -265,17 +233,6 @@
       filter: drop-shadow(0 0 12px #a855f7);
     }
 
-    .empty h1 {
-      color: white;
-      text-shadow: 0 0 15px #ec4899;
-      margin: 5px;
-    }
-
-    .empty p {
-      color: #d8b4fe;
-      max-width: 500px;
-    }
-
     .card {
       width: 215px;
       background: #12001f;
@@ -346,13 +303,6 @@
       z-index: 999;
       font-size: 60px;
       pointer-events: none;
-      animation: flash 1.3s ease;
-    }
-
-    @keyframes flash {
-      0% { opacity: 0; transform: scale(0.8); }
-      30% { opacity: 1; transform: scale(1.15); }
-      100% { opacity: 0; transform: scale(1); }
     }
 
     @media(max-width: 850px) {
@@ -368,7 +318,7 @@
 <body>
 
 <header>
-  <img class="site-logo" src="https://i.ibb.co/fYpyqNWp/Untitled-03-June-2026-at-22-31-09.png" alt="Gengar Girl Packs Logo">
+  <img class="site-logo" src="https://i.ibb.co/tMtXfm9f/Add-a-heading.png" alt="Gengar Girl Packs Banner">
 </header>
 
 <section class="hero">
@@ -380,18 +330,15 @@
 </section>
 
 <section class="website-section">
-  <div class="section-title">🎥 Stream Info</div>
-  <p>Check TikTok for live times, pack openings, updates and new pulls.</p>
-</section>
-
-<section class="website-section">
-  <div class="section-title">⭐ Live Hit Wall & Recent Pulls</div>
-  <p>Your best pulls and recent found cards will appear below once cards are added and marked as found.</p>
+  <h1>🎥 Next Live Stream</h1>
+  <p><strong>Date:</strong> <span id="streamDateText">Check TikTok for live times</span></p>
+  <p><strong>Time:</strong> <span id="streamTimeText">To be announced</span></p>
+  <p><strong>Where:</strong> TikTok @GengarGirl2</p>
 </section>
 
 <div class="main" id="main">
 
-  <div class="section-title">📊 Live Card Tracker</div>
+  <h1>📊 Live Card Tracker</h1>
 
   <div class="top-row">
     <div class="panel">
@@ -419,6 +366,13 @@
         <div class="bar" id="progressBar"></div>
       </div>
     </div>
+  </div>
+
+  <div class="panel admin-box admin-only">
+    <div class="admin-title">🎥 Update Live Stream Info</div>
+    <input id="newStreamDate" placeholder="Stream date e.g. Friday 7th June">
+    <input id="newStreamTime" placeholder="Stream time e.g. 7:00 PM UK Time">
+    <button class="primary" onclick="updateStreamInfo()">Update Stream Info</button>
   </div>
 
   <div class="panel admin-box admin-only">
@@ -518,10 +472,44 @@
 <script>
 let adminMode = false;
 let streamMode = false;
-let cards = JSON.parse(localStorage.getItem("gengarCardsWebsiteV1")) || [];
+let cards = JSON.parse(localStorage.getItem("gengarCardsWebsiteV2")) || [];
+
+let streamInfo = JSON.parse(localStorage.getItem("gengarStreamInfo")) || {
+  date: "Check TikTok for live times",
+  time: "To be announced"
+};
 
 function saveCards() {
-  localStorage.setItem("gengarCardsWebsiteV1", JSON.stringify(cards));
+  localStorage.setItem("gengarCardsWebsiteV2", JSON.stringify(cards));
+}
+
+function saveStreamInfo() {
+  localStorage.setItem("gengarStreamInfo", JSON.stringify(streamInfo));
+}
+
+function updateStreamDisplay() {
+  document.getElementById("streamDateText").innerText = streamInfo.date;
+  document.getElementById("streamTimeText").innerText = streamInfo.time;
+}
+
+function updateStreamInfo() {
+  const date = document.getElementById("newStreamDate").value.trim();
+  const time = document.getElementById("newStreamTime").value.trim();
+
+  if (!date || !time) {
+    alert("Please add both a stream date and time");
+    return;
+  }
+
+  streamInfo.date = date;
+  streamInfo.time = time;
+  saveStreamInfo();
+  updateStreamDisplay();
+
+  document.getElementById("newStreamDate").value = "";
+  document.getElementById("newStreamTime").value = "";
+
+  alert("Stream info updated!");
 }
 
 function setPublicMode() {
@@ -642,7 +630,12 @@ function clearFilters() {
 }
 
 function downloadBackup() {
-  const data = JSON.stringify(cards, null, 2);
+  const fullBackup = {
+    cards: cards,
+    streamInfo: streamInfo
+  };
+
+  const data = JSON.stringify(fullBackup, null, 2);
   const blob = new Blob([data], { type: "application/json" });
   const url = URL.createObjectURL(blob);
 
@@ -662,31 +655,21 @@ function loadBackup(event) {
 
   reader.onload = function(e) {
     try {
-      const importedCards = JSON.parse(e.target.result);
+      const backup = JSON.parse(e.target.result);
 
-      if (!Array.isArray(importedCards)) {
-        alert("This backup file is not valid.");
-        return;
+      if (Array.isArray(backup)) {
+        cards = backup;
+      } else {
+        cards = backup.cards || [];
+        streamInfo = backup.streamInfo || streamInfo;
       }
 
-      if (confirm("Load this backup? This will replace the current cards on this device.")) {
-        cards = importedCards.map(function(card) {
-          return {
-            id: card.id || Date.now() + Math.random(),
-            name: card.name || "Unnamed Card",
-            section: card.section || "Mix",
-            rarity: card.rarity || "Common",
-            chase: card.chase || false,
-            image: card.image || "",
-            found: card.found || false,
-            foundAt: card.foundAt || null
-          };
-        });
+      saveCards();
+      saveStreamInfo();
+      updateStreamDisplay();
+      renderCards();
 
-        saveCards();
-        renderCards();
-        alert("Backup loaded successfully!");
-      }
+      alert("Backup loaded successfully!");
     } catch {
       alert("Could not read this backup file.");
     }
@@ -877,11 +860,19 @@ function renderCards() {
   updateProgress();
 }
 
+updateStreamDisplay();
 renderCards();
 </script>
 
 </body>
 </html>
+
+
+   
+      
+      
+     
+
  
       
       
