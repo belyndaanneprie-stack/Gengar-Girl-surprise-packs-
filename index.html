@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Gengar Girl Packs Tracker</title>
+  <title>Gengar Girl Packs Tracker V5</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -10,112 +10,97 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #030006;
+      background: radial-gradient(circle at top, #3b005c, #08000d 55%, #020003);
       color: white;
       text-align: center;
     }
 
     header {
-      min-height: 310px;
-      background:
-        linear-gradient(to bottom, rgba(0,0,0,0.05), #050008 95%),
-        url("gengar-banner.jpg") center/cover no-repeat;
-      display: flex;
-      align-items: end;
-      justify-content: center;
-      padding-bottom: 20px;
+      padding: 35px 20px;
+      background: #16001f;
+      box-shadow: 0 0 35px #a855f7;
     }
 
     .logo {
-      font-size: 58px;
+      font-size: 46px;
       font-weight: 900;
-      color: #fff;
       text-transform: uppercase;
-      text-shadow:
-        0 0 8px #ff2bd6,
-        0 0 18px #ff2bd6,
-        4px 4px 0 #6b21a8;
-      letter-spacing: 2px;
+      text-shadow: 0 0 10px #ff2bd6, 0 0 25px #a855f7;
     }
 
-    .logo span {
-      color: #a855f7;
-      display: block;
-      font-size: 54px;
+    .logo span { color: #ffd700; }
+
+    .subtitle {
+      color: #d8b4fe;
+      margin-top: 8px;
     }
 
     .main {
       width: 94%;
-      max-width: 1200px;
-      margin: -10px auto 30px;
-      background: rgba(22, 0, 35, 0.92);
-      border: 1px solid #6b21a8;
-      border-radius: 18px;
-      box-shadow: 0 0 25px #4c1d95;
-      padding: 18px;
+      max-width: 1250px;
+      margin: 25px auto;
+      background: rgba(18, 0, 31, 0.96);
+      border: 2px solid #7e22ce;
+      border-radius: 25px;
+      box-shadow: 0 0 25px rgba(168,85,247,0.5);
+      padding: 25px;
     }
 
     .top-row {
       display: grid;
-      grid-template-columns: 1fr 1fr 260px;
+      grid-template-columns: 1fr 1fr 300px;
       gap: 15px;
       align-items: center;
     }
 
+    .panel {
+      background: rgba(30, 0, 50, 0.85);
+      border: 1px solid #6b21a8;
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: 0 0 14px rgba(168,85,247,0.28);
+    }
+
     button {
-      padding: 14px 18px;
+      padding: 13px 17px;
       border: 1px solid #7e22ce;
-      border-radius: 10px;
-      background: #12001f;
+      border-radius: 12px;
+      background: #150022;
       color: white;
       font-weight: bold;
       cursor: pointer;
       margin: 5px;
-      box-shadow: 0 0 12px rgba(168,85,247,0.4);
+      box-shadow: 0 0 12px rgba(168,85,247,0.35);
     }
 
-    button:hover {
-      background: #9333ea;
-    }
+    button:hover { background: #9333ea; }
 
     .primary {
       background: linear-gradient(90deg, #9333ea, #ec4899);
     }
 
+    .gold {
+      background: linear-gradient(90deg, #b45309, #ffd700);
+      color: #210010;
+    }
+
     input, select {
-      padding: 14px;
-      border-radius: 9px;
-      border: 1px solid #4c1d95;
+      padding: 13px;
+      border-radius: 10px;
+      border: 1px solid #6b21a8;
       background: #0b0015;
       color: white;
       margin: 6px;
       min-width: 210px;
     }
 
-    input::placeholder {
-      color: #aaa;
-    }
+    input::placeholder { color: #aaa; }
 
-    .mode-text {
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    .pink {
-      color: #ff4fd8;
-    }
-
-    .progress-box {
-      border: 1px solid #6b21a8;
-      border-radius: 12px;
-      padding: 12px;
-      text-align: left;
-      background: rgba(0,0,0,0.25);
-    }
+    .pink { color: #ff4fd8; }
 
     .progress {
-      height: 12px;
-      background: #16001f;
+      height: 14px;
+      background: #100018;
       border: 1px solid #6b21a8;
       border-radius: 20px;
       overflow: hidden;
@@ -125,33 +110,84 @@
     .bar {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, #ff4fd8, #a855f7);
+      background: linear-gradient(90deg, #ff4fd8, #a855f7, #ffd700);
     }
 
-    .admin-box, .filters {
-      margin-top: 16px;
-      padding: 16px;
-      border: 1px solid #4c1d95;
-      border-radius: 12px;
-      background: rgba(18,0,31,0.75);
+    .admin-box {
+      margin-top: 18px;
+      display: none;
     }
 
     .admin-title {
       color: #ff4fd8;
+      font-size: 22px;
       font-weight: bold;
-      text-align: left;
       margin-bottom: 10px;
     }
 
-    .admin-only {
+    .dashboard {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .stat-card {
+      background: #16001f;
+      border: 1px solid #7e22ce;
+      border-radius: 15px;
+      padding: 14px;
+      box-shadow: 0 0 12px rgba(168,85,247,0.25);
+    }
+
+    .stat-card strong {
+      color: #ff4fd8;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .number {
+      font-size: 24px;
+      font-weight: bold;
+      color: #ffd700;
+    }
+
+    .hit-wall, .recent-pulls {
+      margin-top: 18px;
       display: none;
     }
 
+    .mini-card-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .mini-card {
+      width: 135px;
+      background: #12001f;
+      border: 1px solid #ffd700;
+      border-radius: 14px;
+      padding: 8px;
+      box-shadow: 0 0 14px rgba(255,215,0,0.35);
+    }
+
+    .mini-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: contain;
+      background: white;
+      border-radius: 10px;
+    }
+
     .filters {
+      margin-top: 18px;
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
     }
 
@@ -161,48 +197,73 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 16px;
-      min-height: 360px;
-      border: 1px dashed #6b21a8;
-      border-radius: 14px;
+      min-height: 380px;
+      border: 1px dashed #7e22ce;
+      border-radius: 22px;
       padding: 22px;
+      background: rgba(5,0,10,0.35);
     }
 
     .empty {
+      background: rgba(30,0,50,0.88);
+      border: 2px solid #9333ea;
+      border-radius: 25px;
+      min-height: 350px;
       width: 100%;
+      box-shadow: 0 0 25px rgba(168,85,247,0.45);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      min-height: 330px;
-      color: #ddd;
     }
 
     .empty-icon {
-      font-size: 70px;
+      font-size: 75px;
       margin-bottom: 10px;
       filter: drop-shadow(0 0 12px #a855f7);
     }
 
+    .empty h1 {
+      color: white;
+      text-shadow: 0 0 15px #ec4899;
+      margin: 5px;
+    }
+
+    .empty p {
+      color: #d8b4fe;
+      max-width: 500px;
+    }
+
     .card {
-      width: 210px;
+      width: 215px;
       background: #12001f;
-      border: 1px solid #4c1d95;
-      border-radius: 14px;
+      border: 1px solid #6b21a8;
+      border-radius: 16px;
       padding: 12px;
-      box-shadow: 0 0 15px rgba(168,85,247,0.25);
+      box-shadow: 0 0 16px rgba(168,85,247,0.32);
+    }
+
+    .stream-mode .card {
+      width: 260px;
+      font-size: 18px;
+    }
+
+    .stream-mode .card img {
+      height: 330px;
     }
 
     .card img {
       width: 100%;
-      height: 260px;
+      height: 265px;
       object-fit: contain;
       background: white;
-      border-radius: 10px;
+      border-radius: 12px;
     }
 
     .found {
-      opacity: 0.6;
-      border-color: #ffd700;
+      opacity: 0.68;
+      border: 2px solid #ffd700;
+      box-shadow: 0 0 18px rgba(255,215,0,0.45);
     }
 
     .badge {
@@ -214,8 +275,12 @@
       background: #6b21a8;
     }
 
-    .rarity {
-      background: #db2777;
+    .rarity { background: #db2777; }
+
+    .chase-badge {
+      background: #ffd700;
+      color: #210010;
+      font-weight: bold;
     }
 
     .found-label {
@@ -235,33 +300,25 @@
       display: none;
       align-items: center;
       justify-content: center;
-      background: rgba(0,0,0,0.45);
+      background: rgba(0,0,0,0.55);
       z-index: 999;
-      font-size: 55px;
+      font-size: 60px;
       pointer-events: none;
+      animation: flash 1.3s ease;
     }
 
-    @media(max-width: 800px) {
-      .top-row {
-        grid-template-columns: 1fr;
-      }
+    @keyframes flash {
+      0% { opacity: 0; transform: scale(0.8); }
+      30% { opacity: 1; transform: scale(1.15); }
+      100% { opacity: 0; transform: scale(1); }
+    }
 
-      .logo {
-        font-size: 38px;
-      }
-
-      .logo span {
-        font-size: 36px;
-      }
-
-      header {
-        min-height: 220px;
-      }
-
-      input, select, button {
-        width: 100%;
-        max-width: 100%;
-      }
+    @media(max-width: 850px) {
+      .top-row { grid-template-columns: 1fr; }
+      .dashboard { grid-template-columns: 1fr 1fr; }
+      input, select, button { width: 100%; }
+      .logo { font-size: 32px; }
+      .main { padding: 15px; }
     }
   </style>
 </head>
@@ -269,18 +326,17 @@
 <body>
 
 <header>
-  <div class="logo">
-    Gengar Girl
-    <span>Packs</span>
-  </div>
+  <div class="logo">👻 Gengar Girl <span>Packs</span> ✨</div>
+  <div class="subtitle">Live Pokémon Pack Tracker</div>
 </header>
 
-<div class="main">
+<div class="main" id="main">
 
   <div class="top-row">
-    <div>
+    <div class="panel">
       <button class="primary" onclick="setPublicMode()">👁 Public View</button>
       <button onclick="showAdminLogin()">🔒 Admin Login</button>
+      <button class="gold" onclick="toggleStreamMode()">🎥 Stream Mode</button>
 
       <div id="adminLogin" style="display:none;">
         <input type="password" id="adminPassword" placeholder="Admin password">
@@ -288,11 +344,12 @@
       </div>
     </div>
 
-    <div class="mode-text">
-      Current mode: <span class="pink" id="modeName">Public View</span>
+    <div class="panel">
+      Current mode:<br>
+      <span class="pink" id="modeName">Public View</span>
     </div>
 
-    <div class="progress-box">
+    <div class="panel">
       <strong>Found</strong>
       <div id="progressText">0 of 0 Cards</div>
       <strong>Progress</strong>
@@ -303,8 +360,8 @@
     </div>
   </div>
 
-  <div class="admin-box admin-only">
-    <div class="admin-title">✦ Add New Card (Admin Only)</div>
+  <div class="panel admin-box admin-only">
+    <div class="admin-title">✦ Add New Card</div>
 
     <input id="newName" placeholder="Card name">
 
@@ -322,12 +379,44 @@
       <option>Secret Rare</option>
     </select>
 
+    <select id="newChase">
+      <option value="false">Normal Card</option>
+      <option value="true">Chase / Hit Wall Card</option>
+    </select>
+
     <input type="file" id="cardImage" accept="image/*">
 
+    <br>
+
     <button class="primary" onclick="addCard()">＋ Add Card</button>
+    <button onclick="downloadBackup()">💾 Save Backup</button>
+    <input type="file" id="backupFile" accept=".json" style="display:none;" onchange="loadBackup(event)">
+    <button onclick="document.getElementById('backupFile').click()">📂 Load Backup</button>
   </div>
 
-  <div class="filters">
+  <div class="dashboard">
+    <div class="stat-card"><strong>Total Cards</strong><div class="number" id="totalStat">0</div></div>
+    <div class="stat-card"><strong>Found</strong><div class="number" id="foundStat">0</div></div>
+    <div class="stat-card"><strong>Remaining</strong><div class="number" id="remainingStat">0</div></div>
+    <div class="stat-card"><strong>Completion</strong><div class="number" id="completionStat">0%</div></div>
+
+    <div class="stat-card"><strong>English</strong><span id="englishStat">0/0</span></div>
+    <div class="stat-card"><strong>Japanese</strong><span id="japaneseStat">0/0</span></div>
+    <div class="stat-card"><strong>Chinese</strong><span id="chineseStat">0/0</span></div>
+    <div class="stat-card"><strong>Mix</strong><span id="mixStat">0/0</span></div>
+  </div>
+
+  <div class="panel hit-wall" id="hitWall">
+    <div class="admin-title">⭐ Hit Wall / Chase Cards</div>
+    <div class="mini-card-row" id="hitWallList"></div>
+  </div>
+
+  <div class="panel recent-pulls" id="recentPulls">
+    <div class="admin-title">🔥 Recent Pulls</div>
+    <div class="mini-card-row" id="recentPullsList"></div>
+  </div>
+
+  <div class="panel filters">
     <input id="searchBox" placeholder="🔍 Search cards..." onkeyup="renderCards()">
 
     <select id="sectionFilter" onchange="renderCards()">
@@ -346,6 +435,12 @@
       <option>Secret Rare</option>
     </select>
 
+    <select id="statusFilter" onchange="renderCards()">
+      <option>All Status</option>
+      <option>Found</option>
+      <option>Not Found</option>
+    </select>
+
     <button onclick="clearFilters()">↻ Clear Filters</button>
   </div>
 
@@ -361,15 +456,16 @@
 
 <script>
 let adminMode = false;
-let cards = JSON.parse(localStorage.getItem("gengarCardsV3")) || [];
+let streamMode = false;
+let cards = JSON.parse(localStorage.getItem("gengarCardsV5")) || [];
 
 function saveCards() {
-  localStorage.setItem("gengarCardsV3", JSON.stringify(cards));
+  localStorage.setItem("gengarCardsV5", JSON.stringify(cards));
 }
 
 function setPublicMode() {
   adminMode = false;
-  document.getElementById("modeName").innerText = "Public View";
+  document.getElementById("modeName").innerText = streamMode ? "Stream View" : "Public View";
   document.getElementById("adminLogin").style.display = "none";
 
   document.querySelectorAll(".admin-only").forEach(function(el) {
@@ -401,10 +497,22 @@ function loginAdmin() {
   }
 }
 
+function toggleStreamMode() {
+  streamMode = !streamMode;
+  document.getElementById("main").classList.toggle("stream-mode", streamMode);
+
+  if (!adminMode) {
+    document.getElementById("modeName").innerText = streamMode ? "Stream View" : "Public View";
+  }
+
+  renderCards();
+}
+
 function addCard() {
   const name = document.getElementById("newName").value.trim();
   const section = document.getElementById("newSection").value;
   const rarity = document.getElementById("newRarity").value;
+  const chase = document.getElementById("newChase").value === "true";
   const imageFile = document.getElementById("cardImage").files[0];
 
   if (!name || !imageFile) {
@@ -416,11 +524,14 @@ function addCard() {
 
   reader.onload = function(event) {
     cards.push({
+      id: Date.now(),
       name: name,
       section: section,
       rarity: rarity,
+      chase: chase,
       image: event.target.result,
-      found: false
+      found: false,
+      foundAt: null
     });
 
     saveCards();
@@ -436,12 +547,20 @@ function addCard() {
 
 function toggleFound(index) {
   cards[index].found = !cards[index].found;
+  cards[index].foundAt = cards[index].found ? Date.now() : null;
+
   saveCards();
 
   if (cards[index].found) {
     celebrate();
   }
 
+  renderCards();
+}
+
+function toggleChase(index) {
+  cards[index].chase = !cards[index].chase;
+  saveCards();
   renderCards();
 }
 
@@ -457,7 +576,62 @@ function clearFilters() {
   document.getElementById("searchBox").value = "";
   document.getElementById("sectionFilter").value = "All Sections";
   document.getElementById("rarityFilter").value = "All Rarities";
+  document.getElementById("statusFilter").value = "All Status";
   renderCards();
+}
+
+function downloadBackup() {
+  const data = JSON.stringify(cards, null, 2);
+  const blob = new Blob([data], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "gengar-girl-packs-backup.json";
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
+function loadBackup(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    try {
+      const importedCards = JSON.parse(e.target.result);
+
+      if (!Array.isArray(importedCards)) {
+        alert("This backup file is not valid.");
+        return;
+      }
+
+      if (confirm("Load this backup? This will replace the current cards on this device.")) {
+        cards = importedCards.map(function(card) {
+          return {
+            id: card.id || Date.now() + Math.random(),
+            name: card.name || "Unnamed Card",
+            section: card.section || "Mix",
+            rarity: card.rarity || "Common",
+            chase: card.chase || false,
+            image: card.image || "",
+            found: card.found || false,
+            foundAt: card.foundAt || null
+          };
+        });
+
+        saveCards();
+        renderCards();
+        alert("Backup loaded successfully!");
+      }
+    } catch {
+      alert("Could not read this backup file.");
+    }
+  };
+
+  reader.readAsText(file);
 }
 
 function celebrate() {
@@ -466,23 +640,106 @@ function celebrate() {
 
   setTimeout(function() {
     celebration.style.display = "none";
-  }, 1200);
+  }, 1300);
 }
 
 function updateProgress() {
   const found = cards.filter(card => card.found).length;
   const total = cards.length;
+  const remaining = total - found;
   const percent = total === 0 ? 0 : Math.round((found / total) * 100);
 
   document.getElementById("progressText").innerText = found + " of " + total + " Cards";
   document.getElementById("percentText").innerText = percent + "%";
   document.getElementById("progressBar").style.width = percent + "%";
+
+  document.getElementById("totalStat").innerText = total;
+  document.getElementById("foundStat").innerText = found;
+  document.getElementById("remainingStat").innerText = remaining;
+  document.getElementById("completionStat").innerText = percent + "%";
+
+  updateSectionStats();
+  updateHitWall();
+  updateRecentPulls();
+}
+
+function updateSectionStats() {
+  const sections = ["English", "Japanese", "Chinese", "Mix"];
+
+  sections.forEach(function(section) {
+    const total = cards.filter(card => card.section === section).length;
+    const found = cards.filter(card => card.section === section && card.found).length;
+
+    const id = section.toLowerCase() + "Stat";
+    document.getElementById(id).innerText = found + "/" + total;
+  });
+}
+
+function updateHitWall() {
+  const hitWall = document.getElementById("hitWall");
+  const list = document.getElementById("hitWallList");
+  const chaseCards = cards.filter(card => card.chase);
+
+  if (chaseCards.length === 0) {
+    hitWall.style.display = "none";
+    return;
+  }
+
+  hitWall.style.display = "block";
+  list.innerHTML = "";
+
+  chaseCards.forEach(function(card) {
+    const div = document.createElement("div");
+    div.className = "mini-card";
+
+    div.innerHTML = `
+      <img src="${card.image}" alt="${card.name}">
+      <strong>${card.name}</strong>
+      <br>
+      <small>${card.found ? "FOUND ⭐" : "Chase Card"}</small>
+    `;
+
+    list.appendChild(div);
+  });
+}
+
+function updateRecentPulls() {
+  const recentPulls = document.getElementById("recentPulls");
+  const list = document.getElementById("recentPullsList");
+
+  const recent = cards
+    .filter(card => card.found && card.foundAt)
+    .sort((a, b) => b.foundAt - a.foundAt)
+    .slice(0, 5);
+
+  if (recent.length === 0) {
+    recentPulls.style.display = "none";
+    return;
+  }
+
+  recentPulls.style.display = "block";
+  list.innerHTML = "";
+
+  recent.forEach(function(card) {
+    const div = document.createElement("div");
+    div.className = "mini-card";
+
+    div.innerHTML = `
+      <img src="${card.image}" alt="${card.name}">
+      <strong>${card.name}</strong>
+      <br>
+      <small>${card.rarity}</small>
+    `;
+
+    list.appendChild(div);
+  });
 }
 
 function renderCards() {
   const search = document.getElementById("searchBox").value.toLowerCase();
   const sectionFilter = document.getElementById("sectionFilter").value;
   const rarityFilter = document.getElementById("rarityFilter").value;
+  const statusFilter = document.getElementById("statusFilter").value;
 
   const list = document.getElementById("cardList");
   list.innerHTML = "";
@@ -491,6 +748,8 @@ function renderCards() {
     if (!card.name.toLowerCase().includes(search)) return false;
     if (sectionFilter !== "All Sections" && card.section !== sectionFilter) return false;
     if (rarityFilter !== "All Rarities" && card.rarity !== rarityFilter) return false;
+    if (statusFilter === "Found" && !card.found) return false;
+    if (statusFilter === "Not Found" && card.found) return false;
     return true;
   });
 
@@ -498,9 +757,8 @@ function renderCards() {
     list.innerHTML = `
       <div class="empty">
         <div class="empty-icon">👻</div>
-        <h1>No cards added yet!</h1>
-        <p>Login as admin to add your first card.</p>
-        <p>Once added, they will appear here.</p>
+        <h1>No Cards Added Yet!</h1>
+        <p>Login as admin and start building your Gengar Girl Packs collection.</p>
         <button class="primary" onclick="showAdminLogin()">🔒 Admin Login</button>
       </div>
     `;
@@ -512,8 +770,9 @@ function renderCards() {
     list.innerHTML = `
       <div class="empty">
         <div class="empty-icon">🔍</div>
-        <h1>No cards found</h1>
+        <h1>No Cards Found</h1>
         <p>Try clearing your filters.</p>
+        <button onclick="clearFilters()">Clear Filters</button>
       </div>
     `;
     updateProgress();
@@ -532,6 +791,7 @@ function renderCards() {
 
       <span class="badge">${card.section}</span>
       <span class="badge rarity">${card.rarity}</span>
+      ${card.chase ? `<span class="badge chase-badge">CHASE</span>` : ""}
 
       <p class="found-label">${card.found ? "FOUND" : "Not found yet"}</p>
 
@@ -540,6 +800,9 @@ function renderCards() {
         ? `
           <button class="primary" onclick="toggleFound(${realIndex})">
             ${card.found ? "Mark Not Found" : "Mark Found"}
+          </button>
+          <button onclick="toggleChase(${realIndex})">
+            ${card.chase ? "Remove Chase" : "Make Chase"}
           </button>
           <button onclick="deleteCard(${realIndex})">Delete</button>
         `
@@ -559,6 +822,10 @@ renderCards();
 </body>
 </html>
 
+
+
+   
+ 
 
 
 
