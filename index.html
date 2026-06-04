@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -309,7 +311,6 @@
       .top-row { grid-template-columns: 1fr; }
       .dashboard { grid-template-columns: 1fr 1fr; }
       input, select, button { width: 100%; }
-      .hero h1 { font-size: 30px; }
       .main { padding: 15px; }
     }
   </style>
@@ -331,8 +332,8 @@
 
 <section class="website-section">
   <h1>🎥 Next Live Stream</h1>
-  <p><strong>Date:</strong> <span id="streamDateText">Check TikTok for live times</span></p>
-  <p><strong>Time:</strong> <span id="streamTimeText">To be announced</span></p>
+  <p><strong>Date:</strong> <span id="streamDateText">Loading...</span></p>
+  <p><strong>Time:</strong> <span id="streamTimeText">Loading...</span></p>
   <p><strong>Where:</strong> TikTok @GengarGirl2</p>
 </section>
 
@@ -469,22 +470,49 @@
 
 <div id="celebration">🎆✨ FOUND! ✨🎆</div>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
 <script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDcCBXpsVhziQqWqT3N1NTTHsxwtxmLrj0",
+  authDomain: "gengar-girl-packs.firebaseapp.com",
+  projectId: "gengar-girl-packs",
+  storageBucket: "gengar-girl-packs.firebasestorage.app",
+  messagingSenderId: "921371793908",
+  appId: "1:921371793908:web:447176ad4738ce228b81a1",
+  measurementId: "G-9M25J1J2Q2"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
 let adminMode = false;
 let streamMode = false;
-let cards = JSON.parse(localStorage.getItem("gengarCardsWebsiteV2")) || [];
+let cards = [];
 
-let streamInfo = JSON.parse(localStorage.getItem("gengarStreamInfo")) || {
+let streamInfo = {
   date: "Check TikTok for live times",
   time: "To be announced"
 };
 
-function saveCards() {
-  localStorage.setItem("gengarCardsWebsiteV2", JSON.stringify(cards));
-}
+db.collection("settings").doc("stream").onSnapshot(function(doc) {
+  if (doc.exists) {
+    streamInfo = doc.data();
+  }
+  updateStreamDisplay();
+});
+
+db.collection("cards").orderBy("createdAt", "asc").onSnapshot(function(snapshot) {
+  cards = [];
+  snapshot.forEach(function(doc) {
+    cards.push({ cloudId: doc.id, ...doc.data() });
+  });
+  renderCards();
+});
 
 function saveStreamInfo() {
-  localStorage.setItem("gengarStreamInfo", JSON.stringify(streamInfo));
+  return db.collection("settings").doc("stream").set(streamInfo);
 }
 
 function updateStreamDisplay() {
@@ -503,13 +531,13 @@ function updateStreamInfo() {
 
   streamInfo.date = date;
   streamInfo.time = time;
+
   saveStreamInfo();
-  updateStreamDisplay();
 
   document.getElementById("newStreamDate").value = "";
   document.getElementById("newStreamTime").value = "";
 
-  alert("Stream info updated!");
+  alert("Stream info updated online!");
 }
 
 function setPublicMode() {
@@ -557,7 +585,45 @@ function toggleStreamMode() {
   renderCards();
 }
 
-function addCard() {
+function resizeImage(file) {
+  return new Promise(function(resolve) {
+    const reader = new FileReader();
+
+    reader.onload = function(event) {
+      const img = new Image();
+
+      img.onload = function() {
+        const canvas = document.createElement("canvas");
+        const maxSize = 650;
+
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height && width > maxSize) {
+          height = Math.round(height * maxSize / width);
+          width = maxSize;
+        } else if (height > maxSize) {
+          width = Math.round(width * maxSize / height);
+          height = maxSize;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+
+        resolve(canvas.toDataURL("image/jpeg", 0.75));
+      };
+
+      img.src = event.target.result;
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
+
+async function addCard() {
   const name = document.getElementById("newName").value.trim();
   const section = document.getElementById("newSection").value;
   const rarity = document.getElementById("newRarity").value;
@@ -569,55 +635,54 @@ function addCard() {
     return;
   }
 
-  const reader = new FileReader();
+  try {
+    const image = await resizeImage(imageFile);
 
-  reader.onload = function(event) {
-    cards.push({
-      id: Date.now(),
+    await db.collection("cards").add({
       name: name,
       section: section,
       rarity: rarity,
       chase: chase,
-      image: event.target.result,
+      image: image,
       found: false,
-      foundAt: null
+      foundAt: null,
+      createdAt: Date.now()
     });
-
-    saveCards();
 
     document.getElementById("newName").value = "";
     document.getElementById("cardImage").value = "";
 
-    renderCards();
-  };
-
-  reader.readAsDataURL(imageFile);
+    alert("Card added online!");
+  } catch (error) {
+    alert("Card could not be added. Check Firebase rules.");
+    console.error(error);
+  }
 }
 
 function toggleFound(index) {
-  cards[index].found = !cards[index].found;
-  cards[index].foundAt = cards[index].found ? Date.now() : null;
+  const card = cards[index];
 
-  saveCards();
+  db.collection("cards").doc(card.cloudId).update({
+    found: !card.found,
+    foundAt: !card.found ? Date.now() : null
+  });
 
-  if (cards[index].found) {
-    celebrate();
-  }
-
-  renderCards();
+  if (!card.found) celebrate();
 }
 
 function toggleChase(index) {
-  cards[index].chase = !cards[index].chase;
-  saveCards();
-  renderCards();
+  const card = cards[index];
+
+  db.collection("cards").doc(card.cloudId).update({
+    chase: !card.chase
+  });
 }
 
 function deleteCard(index) {
+  const card = cards[index];
+
   if (confirm("Delete this card?")) {
-    cards.splice(index, 1);
-    saveCards();
-    renderCards();
+    db.collection("cards").doc(card.cloudId).delete();
   }
 }
 
@@ -647,29 +712,42 @@ function downloadBackup() {
   URL.revokeObjectURL(url);
 }
 
-function loadBackup(event) {
+async function loadBackup(event) {
   const file = event.target.files[0];
   if (!file) return;
 
   const reader = new FileReader();
 
-  reader.onload = function(e) {
+  reader.onload = async function(e) {
     try {
       const backup = JSON.parse(e.target.result);
+      let importedCards = [];
 
       if (Array.isArray(backup)) {
-        cards = backup;
+        importedCards = backup;
       } else {
-        cards = backup.cards || [];
+        importedCards = backup.cards || [];
         streamInfo = backup.streamInfo || streamInfo;
       }
 
-      saveCards();
-      saveStreamInfo();
-      updateStreamDisplay();
-      renderCards();
+      if (!confirm("Load this backup online? This will add these cards to Firebase.")) return;
 
-      alert("Backup loaded successfully!");
+      await saveStreamInfo();
+
+      for (const card of importedCards) {
+        await db.collection("cards").add({
+          name: card.name || "Unnamed Card",
+          section: card.section || "Mix",
+          rarity: card.rarity || "Common",
+          chase: card.chase || false,
+          image: card.image || "",
+          found: card.found || false,
+          foundAt: card.foundAt || null,
+          createdAt: Date.now()
+        });
+      }
+
+      alert("Backup loaded to cloud!");
     } catch {
       alert("Could not read this backup file.");
     }
@@ -714,8 +792,7 @@ function updateSectionStats() {
     const total = cards.filter(card => card.section === section).length;
     const found = cards.filter(card => card.section === section && card.found).length;
 
-    const id = section.toLowerCase() + "Stat";
-    document.getElementById(id).innerText = found + "/" + total;
+    document.getElementById(section.toLowerCase() + "Stat").innerText = found + "/" + total;
   });
 }
 
@@ -738,8 +815,7 @@ function updateHitWall() {
 
     div.innerHTML = `
       <img src="${card.image}" alt="${card.name}">
-      <strong>${card.name}</strong>
-      <br>
+      <strong>${card.name}</strong><br>
       <small>${card.found ? "FOUND ⭐" : "Chase Card"}</small>
     `;
 
@@ -770,8 +846,7 @@ function updateRecentPulls() {
 
     div.innerHTML = `
       <img src="${card.image}" alt="${card.name}">
-      <strong>${card.name}</strong>
-      <br>
+      <strong>${card.name}</strong><br>
       <small>${card.rarity}</small>
     `;
 
@@ -832,13 +907,10 @@ function renderCards() {
     div.innerHTML = `
       <img src="${card.image}" alt="${card.name}">
       <h3>${card.name}</h3>
-
       <span class="badge">${card.section}</span>
       <span class="badge rarity">${card.rarity}</span>
       ${card.chase ? `<span class="badge chase-badge">CHASE</span>` : ""}
-
       <p class="found-label">${card.found ? "FOUND" : "Not found yet"}</p>
-
       ${
         adminMode
         ? `
@@ -861,31 +933,19 @@ function renderCards() {
 }
 
 updateStreamDisplay();
-renderCards();
 </script>
 
 </body>
 </html>
 
 
-   
-      
-      
-     
-
- 
-      
-      
-
-   
- 
 
 
 
 
 
 
-  
+
 
 
 
